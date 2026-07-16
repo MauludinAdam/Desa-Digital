@@ -47,6 +47,14 @@ const router = createRouter({
             requiresAuth: true,
           },
         },
+        {
+          path: "/family-member",
+          name: "family-member",
+          component: Index,
+          meta: {
+            requiresAuth: true,
+          },
+        },
       ],
     },
   ],

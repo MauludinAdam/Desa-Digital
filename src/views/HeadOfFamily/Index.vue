@@ -1,12 +1,34 @@
 <script setup>
 import { ref, onMounted, watch, computed } from "vue";
 import { getHeadOfFamilies } from "@/services/headOfFamilyService";
+import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+
+const route = useRoute();
+
+const router = useRouter();
 
 const headOfFamilies = ref([]);
 
 const currentPage = ref(1);
 const lastPage = ref(1);
 const totalData = ref(0);
+
+const message = ref("");
+
+onMounted(() => {
+  if (route.query.message) {
+    message.value = route.query.message;
+
+    setTimeout(() => {
+      message.value = "";
+
+      router.replace({
+        query: {},
+      });
+    }, 4000);
+  }
+});
 
 const perPage = ref(5);
 
@@ -90,8 +112,8 @@ onMounted(() => {
       </div>
       <div class="card-body">
         <div class="d-flex align-items-center justify-content-between">
-          <div class="col-md-3 mb-2">
-            <label for="" class="me-2">Show</label>
+          <div class="col-md-3 mb-3 d-flex">
+            <label for="" class="me-2">Show:</label>
             <select v-model="perPage" class="form-select" style="width: 80px">
               <option :value="5">5</option>
               <option :value="10">10</option>
@@ -100,7 +122,7 @@ onMounted(() => {
               <option :value="100">100</option>
             </select>
           </div>
-          <div class="col-4 mb-2">
+          <div class="col-4">
             <input
               type="text"
               v-model="search"
@@ -110,18 +132,22 @@ onMounted(() => {
           </div>
         </div>
         <div class="table-responsive table-scroll">
+          <div
+            v-if="message"
+            class="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
+            <i class="fas fa-check-circle"></i> {{ message }}
+          </div>
           <table class="table text-nowrap mb-0 align-middle">
             <thead class="bg-info text-white">
               <tr>
                 <th width="5%">No</th>
+                <th>Picture</th>
                 <th>Nama</th>
                 <th>NIK</th>
-                <th width="50%">Jenis kelamin</th>
-                <th width="50%">Tgl Lahir</th>
                 <th width="100%">No.Telp</th>
-                <th>Pekerjaan</th>
-                <th>Status Perkawinan</th>
-                <th>Picture</th>
+                <th width="100%">Jumlah Keluarga</th>
                 <th width="50%" class="text-center">Aksi</th>
               </tr>
             </thead>
@@ -135,14 +161,25 @@ onMounted(() => {
                 :key="item.id"
               >
                 <td>{{ (currentPage - 1) * perPage + index + 1 }}</td>
+                <td>
+                  <img
+                    :src="item.profile_picture || '/assets/images/default.jpg'"
+                    width="50"
+                    height="50"
+                    class="rounded-circle"
+                    alt=""
+                  />
+                </td>
                 <td>{{ item.user.name }}</td>
                 <td>{{ item.identity_number }}</td>
-                <td>{{ item.gender }}</td>
-                <td>{{ item.date_birth }}</td>
-                <td class="100%">{{ item.phone_number }}</td>
-                <td>{{ item.occupation }}</td>
-                <td>{{ item.marital_status }}</td>
-                <td>{{ item.profile_picture }}</td>
+                <td>{{ item.phone_number }}</td>
+                <td class="text-center">
+                  <span class="badge badge-primary"
+                    ><i class="fas fa-users"></i> ({{
+                      item.family_members.length
+                    }}) Orang</span
+                  >
+                </td>
                 <td width="30%" class="d-flex gap-2">
                   <a href="" class="btn btn-info btn-sm"
                     ><i class="fas fa-eye"></i

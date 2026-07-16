@@ -6,6 +6,8 @@ import { login, logout } from "@/services/authService";
 
 const router = useRouter();
 
+const showPassword = ref(false);
+
 const form = ref({
   email: "",
   password: "",
@@ -98,13 +100,13 @@ const submitLogin = async () => {
 
 <template>
   <div class="col-lg-7 mt-5 py-4 offset-md-3">
-    <div class="card shadow login-card">
+    <div class="card shadow login-card" style="background-color: #f0f8ff">
       <div class="row p-4">
         <div class="col-md-6">
           <img
             src="/assets/images/LG.jpeg"
             class="rounded"
-            width="340"
+            width="310"
             height="390"
             alt=""
           />
@@ -112,7 +114,7 @@ const submitLogin = async () => {
         <div class="col-md-6 p-3">
           <h3 class="text-center fw-bold">
             Selamat Datang Di <br />
-            Desa Lewogeka Digital
+            Desa LG Digital
           </h3>
 
           <p class="text-center text-muted mb-4">Silakan login ke akun Anda</p>
@@ -134,20 +136,27 @@ const submitLogin = async () => {
                 class="form-control"
                 :class="{ 'is-invalid': errors.email }"
                 v-model="form.email"
-                placeholder="enter Your Email"
+                placeholder="Masukkan Email"
               />
               <span class="invalid-feedback">{{ errors.email?.[0] }}</span>
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
               <input
-                type="password"
+                :type="showPassword ? 'text' : 'password'"
                 class="form-control"
                 :class="{ 'is-invalid': errors.password }"
                 v-model="form.password"
-                placeholder="Masukkan email"
+                placeholder="Masukkan Password"
               />
               <span class="invalid-feedback">{{ errors.password?.[0] }}</span>
+            </div>
+
+            <div class="showPassword d-flex gap-2">
+              <label class="fw-bold" style="font-size: 12px" for=""
+                >Tampilkan Password</label
+              >
+              <input type="checkbox" class="mb-1" v-model="showPassword" />
             </div>
             <button
               type="submit"
