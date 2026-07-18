@@ -36,13 +36,11 @@ const route = useRoute();
             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
             <span class="hide-menu">Home</span>
           </li>
-          <li
-            class="sidebar-item"
-            :class="{ active: route.name === 'dashboard' }"
-          >
+          <li class="sidebar-item">
             <RouterLink
               :to="{ name: 'dashboard' }"
               class="sidebar-link"
+              :class="{ active: route.name?.startsWith('dashboard') }"
               aria-expanded="false"
             >
               <span>
@@ -55,13 +53,11 @@ const route = useRoute();
             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
             <span class="hide-menu">Family</span>
           </li>
-          <li
-            class="sidebar-item"
-            :class="{ active: route.name === 'head-of-family' }"
-          >
+          <li class="sidebar-item">
             <RouterLink
               :to="{ name: 'head-of-family' }"
               class="sidebar-link"
+              :class="{ active: route.name?.startsWith('head-of-family') }"
               aria-expanded="false"
             >
               <span>
@@ -70,13 +66,11 @@ const route = useRoute();
               <span class="hide-menu">Kepala Rumah</span>
             </RouterLink>
           </li>
-          <li
-            class="sidebar-item"
-            :class="{ active: route.name === 'family-member' }"
-          >
+          <li class="sidebar-item">
             <RouterLink
               :to="{ name: 'family-member' }"
               class="sidebar-link"
+              :class="{ active: route.name?.startsWith('family-member') }"
               aria-expanded="false"
             >
               <span>

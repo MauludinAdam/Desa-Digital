@@ -26,7 +26,7 @@ const logout = async () => {
 </script>
 
 <template>
-  <header class="app-header">
+  <header class="app-header shadow" style="top: -7px">
     <nav class="navbar navbar-expand-lg navbar-light">
       <ul class="navbar-nav">
         <li class="nav-item d-block d-xl-none">

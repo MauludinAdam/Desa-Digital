@@ -65,7 +65,9 @@ const submitLogin = async () => {
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("user", JSON.stringify(response.data.user));
 
-    router.push("/");
+    router.push({
+      name: "dashboard",
+    });
   } catch (error) {
     if (error.response) {
       if (error.response.status === 401) {

@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { createHeadOfFamily } from "@/services/headOfFamilyService";
+import { toast } from "@/utils/swal";
 
 const router = useRouter();
 
@@ -79,6 +80,10 @@ const saveData = async () => {
     errors.value.marital_status = ["Status Perkawinan Harus Diisi"];
   }
 
+  if(!form.value.profile_picture){
+    errors.value.profile_picture = ["Gambar Harus Diisi"]
+  }
+
   try {
     const formData = new FormData();
 
@@ -91,11 +96,12 @@ const saveData = async () => {
     }
 
     await createHeadOfFamily(formData);
+    toast(
+      "success", "Data kepala keluarga berhasil di tambahkan"
+    );
+
     router.push({
       name: "head-of-family",
-      query: {
-        message: "Data kepala keluarga berhasil ditambahkan"
-      }
     });
   } catch (error) {
     console.log(error.response.data);
@@ -226,14 +232,15 @@ const saveData = async () => {
             </div>
             <div class="form-group">
               <label for="">Picture</label>
-              <input type="file" name="" class="form-control" @change="handleFile" />
+              <input type="file" :class="{ 'is-invalid': errors.profile_picture }" class="form-control" @change="handleFile" />
+              <small class="text-danger" v-if="errors.profile_picture">{{ errors.profile_picture[0] }}</small>
             </div>
           </div>
           </div>
         <p>
           -----------------------------------------------------------------------------------------------------------------------------------------
         </p>
-        <h4 class="fw-bold mb-3">Data Akun Dashboard</h4 class="fw-bold text-center">
+        <h4 class="fw-bold mb-3">Akun Dashboard</h4 class="fw-bold text-center">
         <div class="form-group">
           <label for="">Email</label>
           <input
@@ -264,7 +271,7 @@ const saveData = async () => {
             :disabled="loading"
           >
             <i class="fas fa-paper-plane"></i>
-            {{ loading ? "Menyimpan..." : "Simpan" }}
+            {{ loading ? "Proses Menyimpan..." : "Simpan" }}
           </button>
         </div>
       </form>

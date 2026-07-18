@@ -3,6 +3,11 @@ import { ref, onMounted, watch, computed } from "vue";
 import { getHeadOfFamilies } from "@/services/headOfFamilyService";
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
+import {
+  deleteHeadOfFamily,
+  deleteSelectedHeadOfFamily,
+} from "@/services/headOfFamilyService.js";
 
 const route = useRoute();
 
@@ -15,6 +20,8 @@ const lastPage = ref(1);
 const totalData = ref(0);
 
 const message = ref("");
+
+const selectedItems = ref([]);
 
 onMounted(() => {
   if (route.query.message) {
@@ -73,6 +80,94 @@ const getData = async () => {
   }
 };
 
+// confirm delete data kepala keluarga menggunakan sweet alert starts
+const deleteData = async (id) => {
+  // console.log("Delete Diklik", id);
+  const result = await Swal.fire({
+    title: "Apakah yakin ?",
+    text: "Data yang dihapus tidak dapat dikembalikan,",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Ya, Hapus",
+    cancelButtonText: "Batal",
+  });
+
+  if (!result.isConfirmed) return;
+
+  try {
+    await deleteHeadOfFamily(id);
+
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: "Data berhasil dihapus",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+
+    getData();
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Gagal menghapus data.",
+    });
+
+    console.log(error);
+  }
+};
+// confirm delete data kepala keluarga menggunakan sweet alert ends
+
+// confirm delete checkbox all data data kepala keluarga menggunakan sweet alert starts
+const toggleAll = (event) => {
+  if (event.target.checked) {
+    selectedItems.value = headOfFamilies.value.map((item) => item.id);
+  } else {
+    selectedItems.value = [];
+  }
+};
+
+const deleteSelected = async () => {
+  const result = await Swal.fire({
+    title: "Apakah yakin ?",
+    text: `Hapus ${selectedItems.value.length} data ini ?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Ya",
+    cancelButtonText: "Batal",
+  });
+
+  if (!result.isConfirmed) return;
+
+  try {
+    await deleteSelectedHeadOfFamily(selectedItems.value);
+
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: "Data berhasil dihapus",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+
+    selectedItems.value = [];
+
+    getData();
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Ooops...!",
+      text: "Gagal menghapus data.",
+    });
+
+    console.log(error);
+  }
+};
+// confirm delete checkbox all data data kepala keluarga menggunakan sweet alert ends
 const changePage = (page) => {
   if (page < 1 || page > lastPage.value) {
     return;
@@ -98,11 +193,23 @@ onMounted(() => {
 </script>
 
 <template>
+  <!-- <p>{{ route.name?.startsWith("head-of-family") }}</p> -->
   <div class="col-md-12">
     <div class="card">
       <div class="card-header d-flex justify-content-between">
-        <div class="card-title"><h5>Data kepala keluarga</h5></div>
+        <div class="card-title"><h5>Data Kepala Keluarga</h5></div>
         <div class="card-tools">
+          <span v-if="selectedItems.length > 0" class="btn text-danger ms-3"
+            >{{ selectedItems.length }} data dipilih</span
+          >
+          <button
+            v-if="selectedItems.length"
+            :disabled="selectedItems.length === 0"
+            @click="deleteSelected"
+            class="btn btn-danger mx-2"
+          >
+            <i class="fas fa-trash"></i> Hapus
+          </button>
           <RouterLink
             :to="{ name: 'head-of-family-create' }"
             class="btn btn-info"
@@ -112,7 +219,7 @@ onMounted(() => {
       </div>
       <div class="card-body">
         <div class="d-flex align-items-center justify-content-between">
-          <div class="col-md-3 mb-3 d-flex">
+          <div class="col-md-3 mb-2 d-flex">
             <label for="" class="me-2">Show:</label>
             <select v-model="perPage" class="form-select" style="width: 80px">
               <option :value="5">5</option>
@@ -122,7 +229,7 @@ onMounted(() => {
               <option :value="100">100</option>
             </select>
           </div>
-          <div class="col-4">
+          <div class="col-4 mb-2">
             <input
               type="text"
               v-model="search"
@@ -131,6 +238,7 @@ onMounted(() => {
             />
           </div>
         </div>
+
         <div class="table-responsive table-scroll">
           <div
             v-if="message"
@@ -142,10 +250,12 @@ onMounted(() => {
           <table class="table text-nowrap mb-0 align-middle">
             <thead class="bg-info text-white">
               <tr>
+                <th width="40">
+                  <input type="checkbox" @change="toggleAll" />
+                </th>
                 <th width="5%">No</th>
                 <th>Picture</th>
                 <th>Nama</th>
-                <th>NIK</th>
                 <th width="100%">No.Telp</th>
                 <th width="100%">Jumlah Keluarga</th>
                 <th width="50%" class="text-center">Aksi</th>
@@ -153,13 +263,25 @@ onMounted(() => {
             </thead>
             <tbody>
               <tr v-if="loading">
-                <td colspan="10" class="text-center">Loading...</td>
+                <td colspan="10" class="text-center py-4">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <p class="mt-2">Memuat data...</p>
+                </td>
               </tr>
               <tr
                 v-else-if="headOfFamilies.length > 0"
                 v-for="(item, index) in headOfFamilies"
                 :key="item.id"
               >
+                <td>
+                  <input
+                    type="checkbox"
+                    v-model="selectedItems"
+                    :value="item.id"
+                  />
+                </td>
                 <td>{{ (currentPage - 1) * perPage + index + 1 }}</td>
                 <td>
                   <img
@@ -171,25 +293,36 @@ onMounted(() => {
                   />
                 </td>
                 <td>{{ item.user.name }}</td>
-                <td>{{ item.identity_number }}</td>
                 <td>{{ item.phone_number }}</td>
                 <td class="text-center">
                   <span class="badge badge-primary"
-                    ><i class="fas fa-users"></i> ({{
-                      item.family_members.length
-                    }}) Orang</span
+                    ><i class="fas fa-user-group"></i>
+                    {{ item.family_members.length }} Orang</span
                   >
                 </td>
                 <td width="30%" class="d-flex gap-2">
-                  <a href="" class="btn btn-info btn-sm"
+                  <RouterLink
+                    :to="{
+                      name: 'head-of-family.detail',
+                      params: { id: item.id },
+                    }"
+                    class="btn btn-info btn-sm"
                     ><i class="fas fa-eye"></i
-                  ></a>
-                  <a href="" class="btn btn-warning btn-sm"
+                  ></RouterLink>
+                  <RouterLink
+                    :to="{
+                      name: 'head-of-family.edit',
+                      params: { id: item.id },
+                    }"
+                    class="btn btn-warning btn-sm"
                     ><i class="fas fa-pen-square"></i
-                  ></a>
-                  <a href="" class="btn btn-danger btn-sm"
-                    ><i class="fas fa-trash"></i
-                  ></a>
+                  ></RouterLink>
+                  <button
+                    @click="deleteData(item.id)"
+                    class="btn btn-danger btn-sm"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
                 </td>
               </tr>
               <tr v-else>
