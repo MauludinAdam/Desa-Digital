@@ -35,7 +35,7 @@ onMounted(() => {
             <div class="card-header d-flex justify-content-between align-items-center">
                 <div class="card-title"><h5>Profile Desa</h5></div>
                 <div class="mx-4">
-                    <RouterLink :to="{name: 'profile-edit'}" class="btn btn-info">Edit profile</RouterLink>
+                    <RouterLink :to="{name: 'profile-edit'}" class="btn text-white" style="background:#2F4F4F;">Edit profile</RouterLink>
                 </div>
             </div>
             <div class="card-body">

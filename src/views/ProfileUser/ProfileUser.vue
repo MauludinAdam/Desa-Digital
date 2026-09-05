@@ -123,10 +123,7 @@ const updatePassword = async () => {
         };
 
     } catch (error) {
-        console.log('STATUS:', error.response?.status);
-        console.log('DATA:', error.response?.data);
-        console.log('MESSAGE:', error.response?.data?.message);
-        console.log('FULL ERROR:', error);
+        console.log(error);
 
         if(error.response?.status === 422) {
             errors.value = error.response.data.errors ?? {};

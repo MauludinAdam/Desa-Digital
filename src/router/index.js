@@ -31,6 +31,8 @@ import ProfileVillageEdit from '@/views/ProfileVillage/ProfileVillageEdit.vue';
 import ProfileUser from '@/views/ProfileUser/ProfileUser.vue';
 import ForgotPassword from '@/views/auth/ForgotPassword.vue';
 import ResetPassword from '@/views/auth/ResetPassword.vue';
+import BumdesIndex from '@/views/Bumdes/BumdesIndex.vue';
+import EditBumdes from '@/views/Bumdes/EditBumdes.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -283,6 +285,24 @@ const router = createRouter({
           path: '/profile/edit',
           name: 'profile-edit',
           component: ProfileVillageEdit,
+          meta: {
+            requiresAuth: true,
+          }
+        },
+
+        // Bumdes untuk operator
+        {
+          path: '/bumdes',
+          name: 'bumdes',
+          component: BumdesIndex,
+          meta: {
+            requiresAuth: true,
+          }
+        },
+        {
+          path: '/bumdes/edit',
+          name: 'bumdes-edit',
+          component: EditBumdes,
           meta: {
             requiresAuth: true,
           }

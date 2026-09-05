@@ -34,7 +34,7 @@ const getProfile = async () => {
     try {
         const response = await getProfileVillage();
 
-        console.log('PROFILE DATA:',response.data.data);
+        console.log(response.data.data);
 
         profile.value = response.data.data;
         form.value = {
@@ -69,7 +69,7 @@ const handleThumbnail = (event) => {
 
     form.value.thumbnail = file;
 
-    // hapus preview lama jika
+    // hapus preview lama jika ada
     if(thumbnailPreview.value?.startsWith("blob:")){
         URL.revokeObjectURL(thumbnailPreview.value);
     }
@@ -99,11 +99,9 @@ const updateProfile = async () => {
             }
 
         formData.append("_method","POST");
-
-      
         
         for (const [key, value] of formData.entries()) {
-        console.log('FORM DATA:', key, value);
+        console.log( key, value);
         }
 
     
@@ -121,9 +119,7 @@ const updateProfile = async () => {
         });
 
     } catch (error) {
-        console.log('STATUS:', error.response?.status);
-        console.log('DATA:', error.response?.data);
-        console.log('ERRORS:', error.response?.data?.errors);
+        console.log(error.response?.data?.errors);
 
         if(error.response?.status === 422){
             errors.value = error.response.data.errors ?? {};
@@ -131,13 +127,6 @@ const updateProfile = async () => {
     }finally{
         saving.value = false;
     }
-}
-
-// Batal
-const cancelEdit = () => {
-    router.push({
-        name: 'profile',
-    });
 }
 
 onMounted(() => {
@@ -159,7 +148,7 @@ onMounted(() => {
             <div class="card-body">
                 <form @submit.prevent="updateProfile">
                     <div class="row p-2">
-                        <div class="col-md-4 border">
+                        <div class="col-md-4">
                             <img :src="thumbnailPreview || '/src/assets/images/img-default.jpg'" width="280" height="350" class="rounded p-2" alt="">
                             <div class="form-group">
                                 <label for="">Upload Foto</label>

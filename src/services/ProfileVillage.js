@@ -7,7 +7,7 @@ export const getProfileVillage = () => {
 export const updateProfileVillage = (data) => {
     return api.post('/profile', data, {
         headers: {
-            'Content-Type': 'multiparf/form-data',
+            'Content-Type': 'multipart/form-data',
         }
     });
 }

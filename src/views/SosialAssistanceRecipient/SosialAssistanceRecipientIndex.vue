@@ -166,7 +166,6 @@ onMounted(() => {
                                 <th>Bantuan Sosial</th>
                                 <th>Jumlah</th>
                                 <th>Status Pengajuan</th>
-                                <th>Status Penyaluran</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>

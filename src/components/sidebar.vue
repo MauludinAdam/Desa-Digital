@@ -4,7 +4,7 @@ import Header from './Header.vue';
 import { useAuth } from '@/helpers/auth';
 import { onMounted } from 'vue';
 
-const { fetchUser, isAdmin, isHeadman } = useAuth();
+const { fetchUser, isAdmin, isHeadman, isOperator } = useAuth();
 
 const route = useRoute();
 
@@ -30,7 +30,7 @@ onMounted(() => {
                    <span class="sub-item">Dashboard</span>
                     </RouterLink>
                </li>
-              <li class="nav-item" :class="{active:route.name?.startsWith('master-data')}">
+              <li v-if="isAdmin || isHeadman" class="nav-item" :class="{active:route.name?.startsWith('master-data')}">
                 <a data-bs-toggle="collapse" href="#masterData" :aria-expended="route.name?.startsWith('master-data')">
                   <i class="fas fa-layer-group"></i>
                   <p>Master Penduduk</p>
@@ -56,7 +56,7 @@ onMounted(() => {
                   </ul>
                 </div>
               </li>
-              <li class="nav-item" :class="{active:route.name?.startsWith('master-surat')}">
+              <li v-if="isAdmin || isHeadman" class="nav-item" :class="{active:route.name?.startsWith('master-surat')}">
                 <a data-bs-toggle="collapse" href="#masterSurat" :aria-expended="route.name?.startsWith('master-surat')">
                   <i class="fas fa-layer-group"></i>
                   <p>Master Surat</p>
@@ -78,7 +78,7 @@ onMounted(() => {
                   </ul>
                 </div>
               </li>
-              <li class="nav-item" :class="{active:route.name?.startsWith('master-sosial')}">
+              <li v-if="isAdmin || isHeadman" class="nav-item" :class="{active:route.name?.startsWith('master-sosial')}">
                 <a data-bs-toggle="collapse" href="#masterSosial" :aria-expended="route.name?.startsWith('master-sosial')">
                   <i class="fas fa-layer-group"></i>
                   <p>Master Sosial</p>
@@ -115,6 +115,14 @@ onMounted(() => {
                 <RouterLink v-if="isAdmin" :to="{name: 'pekerjaan'}" :class="{active: route.name?.startsWith('pekerjaan')}">
                      <i class="fas fa-user-clock"></i>
                    <span class="sub-item">Data Pekerjaan</span>
+                </RouterLink>
+              </li>
+
+              <!-- fitur bumdes yang hanya diakses untuk operator bumdes -->
+              <li v-if="isHeadman || isOperator" class="nav-item">
+                <RouterLink :to="{name: 'bumdes'}" :class="{active: route.name?.startsWith('bumdes')}">
+                     <i class="fas fa-sliders"></i>
+                   <span class="sub-item">Profile Bumdes</span>
                 </RouterLink>
               </li>
               <li class="nav-item">

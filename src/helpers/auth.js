@@ -24,8 +24,12 @@ const isHeadman = computed(() => {
     return user.value?.role?.name === 'headman';
 });
 
+const isOperator = computed(() => {
+    return user.value?.role?.name === 'operator'
+})
+
 export const useAuth = () => {
     return {
-        user, fetchUser, isAdmin, isHeadman
+        user, fetchUser, isAdmin, isHeadman, isOperator
     };
 };

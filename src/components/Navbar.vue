@@ -124,15 +124,14 @@ const logout = async () => {
                     </ul>
                 </li>
                
-
                 <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                         <div class="avatar-sm">
                             <img src="/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle" />
                         </div>
                         <span class="profile-username">
-                            <span class="op-7">Hi,</span>
-                            <span class="fw-bold">{{ user.name }}</span>
+                            <span class="fw-bold">{{ user.name }}</span><br>
+                            <small class="text-muted mx-2">{{ user.role?.name }}</small>
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -144,8 +143,8 @@ const logout = async () => {
                                             class="avatar-img rounded" />
                                     </div>
                                     <div class="u-text">
-                                        <h4>Hizrian</h4>
-                                        <p class="text-muted">hello@example.com</p>
+                                        <h4>{{ user.name }}</h4>
+                                        <p class="text-muted">{{ user.email }}</p>
                                     </div>
                                 </div>
                             </li>
@@ -153,9 +152,7 @@ const logout = async () => {
                                 <div class="dropdown-divider"></div>
                                 <RouterLink :to="{name: 'profile-user'}" class="dropdown-item"><i class="fas fa-user"></i> Profile Saya</RouterLink>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Account Setting</a>
-                                <div class="dropdown-divider"></div>
-                                <button class="dropdown-item" @click.prevent="logout">Logout</button>
+                                <button class="dropdown-item" @click.prevent="logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
                             </li>
                         </div>
                     </ul>
