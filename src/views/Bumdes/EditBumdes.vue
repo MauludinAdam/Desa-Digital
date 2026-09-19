@@ -95,7 +95,7 @@ const updateData = async () => {
             formData.append('logo', form.value.logo);
         }
 
-        formData.append("_method","POST");
+        formData.append("_method","PUT");
 
         for (const[key, value] of formData.entries()){
             console.log(key, value)
@@ -164,7 +164,7 @@ onMounted(() => {
                                             <small class="text-danger" v-if="errors.name">{{ errors.name[0] }}</small>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Title</label>
+                                            <label for="">Judul</label>
                                             <input type="text" v-model="form.title" class="form-control" :class="{'is-invalid': errors.established_year}" placeholder="Masukkan Title BUMDes">
                                             <small class="text-danger" v-if="errors.established_year">{{ errors.established_year[0] }}</small>
                                         </div>

@@ -2,6 +2,9 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getBumdes } from '@/services/ProfileBumdes';
+import { useAuth } from '@/helpers/auth';
+
+const { isHeadman, isOperator } = useAuth();
 
 const route = useRoute();
 
@@ -34,8 +37,9 @@ onMounted(() => {
         <div class="fw-bold">
             <h3 class="fw-bold">Profile Bumdes</h3>
         </div>
-        <div class="fw-bold">
+        <div class="fw-bold d-flex gap-2" v-if="isOperator">
             <RouterLink :to="{name: 'bumdes-edit'}" class="btn text-white" style="background: #2F4F4F;"> Edit Profile</RouterLink>
+            <!-- <RouterLink :to="{name: 'bumdes-create'}" class="btn btn-primary">Tambah Profile</RouterLink> -->
         </div>
     </div>
 

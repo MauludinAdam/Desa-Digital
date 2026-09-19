@@ -179,7 +179,7 @@ onMounted(() => {
                             </tr>
                             <tr v-else>
                                 <td colspan="10" class="text-center text-muted py-4">
-                                    <p style="font-size: 3rem;"><i class="fas fa-folder-closed"></i></p>
+                                    <p style="font-size: 3rem;"><i class="fas fa-folder"></i></p>
                                     <p class="mb-5">{{ isSearching ? 'Data tidak ditemuka' : 'Belum ada Data!' }}</p>
                                 </td>
                             </tr>

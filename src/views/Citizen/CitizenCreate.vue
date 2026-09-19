@@ -2,7 +2,6 @@
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted, ref, watch } from 'vue';
 import { createCitizen } from '@/services/citizenService';
-import { getReligionOption } from '@/services/ReligionService';
 import { getEducationOptions } from '@/services/EducationService';
 import { getFamilyCardOptions } from '@/services/FamilyCardService';
 import { toast } from '@/utils/swal';
@@ -16,7 +15,6 @@ const message = ref("");
 
 const occupations = ref([]);
 const educations = ref([]);
-const religions = ref([]);
 
 const fetchFamilyCards = async () => {
     try {
@@ -33,16 +31,6 @@ const fetchOccupations = async () => {
         const response = await getOccupationOptions();
 
         occupations.value = response.data.data.data;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-const fetchReligions = async () => {
-    try {
-        const response = await getReligionOption();
-
-        religions.value = response.data.data.data;
     } catch (error) {
         console.log(error);
     }
@@ -66,7 +54,7 @@ const form = ref ({
     date_of_birth: "",
     phone_number: "",
     occupation_id: "",
-    religion_id: "",
+    religion: "",
     education_id: "",
     marital_status: "",
     blood_type: "",
@@ -110,7 +98,7 @@ const saveData = async () => {
         errors.value.occupation_id = ["Pekerjaan harus diisi"];
     }
 
-    if(!form.value.religion_id){
+    if(!form.value.religion){
         errors.value.religion_id = ["Agama harus diisi"];
     }
 
@@ -179,7 +167,6 @@ const saveData = async () => {
 onMounted(() => {
     fetchFamilyCards();
     fetchOccupations();
-    fetchReligions();
     fetchEducations();
 });
 
@@ -271,9 +258,13 @@ onMounted(() => {
                             </div>
                             <div class="form-group">
                                 <label for="">Agama</label>
-                                <select v-model="form.religion_id" class="form-select" :class="{'is-invalid': errors.religion_id}">
+                                <select v-model="form.religion" class="form-select" :class="{'is-invalid': errors.religion}">
                                     <option value="">--- Pilih Agama ---</option>
-                                    <option v-for="item in religions" :value="item.id" :key="item.id">{{ item.name }}</option>
+                                    <option value="Islam">Islam</option>
+                                    <option value="Hindu">Hindu</option>
+                                    <option value="Budha">Budha</option>
+                                    <option value="Katolik">Katolik</option>
+                                    <option value="Kristen">Kristen</option>
                                 </select>
                                 <small class="text-danger" v-if="errors.religion_id">{{ errors.religion_id[0] }}</small>
                             </div>

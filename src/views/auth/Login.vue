@@ -75,9 +75,33 @@ const submitLogin = async() => {
 
         localStorage.setItem("loginMessage","Anda berhasil login");
 
-        router.push({
-            name: "dashboard",
-        });
+
+        // router.push({
+        //     name: 'dashboard-desa'
+        // })
+        // const role = user.role?.name?.toLowerCase();
+
+        const user = response.data.data.data
+        
+        const role = user.role?.name
+
+        if(role === "Admin"){
+           await router.push({name: 'dashboard-desa'});
+
+        }else if(role === "Operator"){
+           await router.push({name: 'sales-item'})
+
+        }else if(role === "Kepala Desa"){
+           await router.push({name: 'dashboard-desa'})
+        }else{
+            console.log(role)
+            Swal.fire({
+                icon: 'error',
+                title: 'Role tidak dikenali',
+                text: `Role "${role}" tidak memiliki dashboard.`,
+            })
+        }
+
     } catch (error) {
         console.log('LOGIN ERROR:', error)
         if(error.response){

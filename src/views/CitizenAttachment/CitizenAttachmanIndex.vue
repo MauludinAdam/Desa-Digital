@@ -317,7 +317,7 @@ onMounted(() => {
                         <input type="text" v-model="search" class="form-control" placeholder="Search Here..." style="width: 15rem;">
                     </div>
                 </div>
-                <table class="table table-striped table-borderless">
+                <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th width="5%">No</th>
@@ -338,6 +338,12 @@ onMounted(() => {
                             <td class="d-flex gap-2" v-if="isAdmin">
                                 <button @click="openEditCitizenAttachModal(item)" class="btn btn-warning btn-sm"><i class="fas fa-pen-square"></i></button>
                                 <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+                                <p class="text-muted" style="font-size: 2rem;"><i class="fas fa-folder"></i></p>
+                                <p class="text-muted" style="font-size: 1.5rem;">{{ isSearching ? 'Data tidak ditemukan': 'Data belum ada' }}</p>
                             </td>
                         </tr>
                     </tbody>

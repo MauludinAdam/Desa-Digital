@@ -17,14 +17,12 @@ const data = ref({});
 
 const loading = ref(false);
 const errors = ref({});
-const message = ref("");
 
 const user = ref([]);
 
 const processing = ref(false);
 
 const letterTemplate = ref(null);
-const letterDocument = ref(null);
 
 const printLetter = async () =>{
 
@@ -74,7 +72,7 @@ const printLetter = async () =>{
 
         console.log('PDF berhasil dibuat')
     } catch (error) {
-        console.log('Gagal membuat PDF:', error);   
+        console.log(error);   
     }
     
 }
@@ -264,10 +262,6 @@ const handleReject = async () => {
         processing.value = false;
     }
 }
-
-const goBack = () => {
-    router.back();
-};
 
 // Modal Upload Document
 const attachman = ref([]);

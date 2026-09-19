@@ -74,7 +74,7 @@ const updateData = async () => {
             if(form.value[key] !== null && form.value[key] !== ""){
                 formData.append(key, form.value[key]);
             }
-        })
+        });
 
         for (let pair of formData.entries()){
             console.log(pair[0], pair[1]);

@@ -31,7 +31,7 @@ const getData = async () => {
     }
 };
 
-// FORMAT DATA
+// FORMAT DATE
 const formatDate = (date) => {
     if(!date){
         return '-';
@@ -76,13 +76,6 @@ const formatGender = (gender) => {
     return '-';
 }
 
-const goBack = () => {
-    router.back();
-};
-
-const downloadLetter = () => {
-    console.log('Download surat:', data.value?.id);
-};
 
 onMounted(() => {
     getData();
@@ -93,18 +86,6 @@ onMounted(() => {
 
 <template>
     <div class="container-fluit bg-light min-vh-100 py-4">
-        <div class="container mb-4">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h5 class="fw-bold mb-1">Priview Surat</h5>
-                    <small class="text-muted">Pretinjau Dokumen Surat</small>
-                </div>
-                <div class="d-flex gap-1">
-                    <button @click="goBack" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Kembali</button>
-                    <button @click="downloadLetter" class="btn btn-outline-primary"><i class="fas fa-download"></i> Download</button>
-                </div>
-            </div>
-        </div>
 
         <div v-if="loading" class="container">
             <div class="card border-0 shadow-sm">

@@ -94,7 +94,7 @@ onMounted(() => {
                                 <tr>
                                     <th>Agama</th>
                                     <td>:</td>
-                                    <td>{{ data.religion?.name }}</td>
+                                    <td>{{ data.religion }}</td>
                                 </tr>
                                 <tr>
                                     <th>Status Kawin</th>

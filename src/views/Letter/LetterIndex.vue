@@ -5,6 +5,9 @@ import Swal from 'sweetalert2';
 import { getCitizenOptions } from '@/services/citizenService';
 import { getLetterType, getLetterTypeOptions } from '@/services/LetterType';
 import { createLetter, getLetters, updateLetter } from '@/services/LetterService';
+import { useAuth } from '@/helpers/auth';
+
+const { isAdmin, isHeadman } = useAuth();
 
 const letters = ref([]);
 

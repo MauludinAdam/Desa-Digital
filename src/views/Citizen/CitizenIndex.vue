@@ -177,7 +177,7 @@ const isSearching = computed(() => {
                                     <td>{{ (currentPage - 1)  * perPage + index + 1}}</td>
                                     <td>{{ item.full_name }}</td>
                                     <td>{{ item.phone_number }}</td>
-                                    <td class="text-center">{{ item.gender ? 'laki-laki' : 'perempun' }}</td>
+                                    <td class="text-center">{{ item.gender === 'male' ? 'Laki-Laki' : 'Perempuan' }}</td>
                                     <td>{{ item.email }}</td>
                                     <td width="18%" class="text-center">
                                         <RouterLink :to="{name: 'master-data.citizen-detail', params: {id: item.id},}" class="btn btn-info btn-sm mx-1" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-eye"></i></RouterLink>
@@ -187,7 +187,7 @@ const isSearching = computed(() => {
                                 </tr>
                                 <tr v-else>
                                     <td colspan="10" class="text-center text-muted py-4">
-                                        <p style="font-size: 3rem;"><i class="fas fa-folder-closed"></i>
+                                        <p style="font-size: 3rem;"><i class="fas fa-folder"></i>
                                         </p>
                                         <p class="mb-5">{{ isSearching ? 'Data tidak ditemukan' : 'Data penduduk belum ada' }}</p>
                                     </td>

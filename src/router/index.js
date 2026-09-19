@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Template from '@/layouts/Template.vue'
-import Dashboard from '@/views/Dashboard.vue'
 import CitizenIndex from '@/views/Citizen/CitizenIndex.vue';
 import FamilyCardIndex from '@/views/FamilyCard/FamilyCardIndex.vue';
 import Login from '@/views/auth/Login.vue';
@@ -33,6 +32,22 @@ import ForgotPassword from '@/views/auth/ForgotPassword.vue';
 import ResetPassword from '@/views/auth/ResetPassword.vue';
 import BumdesIndex from '@/views/Bumdes/BumdesIndex.vue';
 import EditBumdes from '@/views/Bumdes/EditBumdes.vue';
+import BumdesUnitIndex from '@/views/BumdesUnit/BumdesUnitIndex.vue';
+import BumdesUnitCreate from '@/views/BumdesUnit/BumdesUnitCreate.vue';
+import BumdesUnitEdit from '@/views/BumdesUnit/BumdesUnitEdit.vue';
+import BumdesSalesIndex from '@/views/BumdesSales/BumdesSalesIndex.vue';
+import BumdesSalesItemIndex from '@/views/BumdesSalesItem/BumdesSalesItemIndex.vue';
+import BumdesProductIndex from '@/views/BumdesProduct/BumdesProductIndex.vue';
+import BumdesProductCreate from '@/views/BumdesProduct/BumdesProductCreate.vue';
+import BumdesProductEdit from '@/views/BumdesProduct/BumdesProductEdit.vue';
+import BumdesSalesDetail from '@/views/BumdesSales/BumdesSalesDetail.vue';
+import RiwayatTransaksiIndex from '@/views/RiwayatTransaksi/RiwayatTransaksiIndex.vue';
+import DashboardDesa from '@/views/Dashboard/DashboardDesa.vue';
+import DashboardBumdes from '@/views/Dashboard/DashboardBumdes.vue';
+import TransaksiPDF from '@/views/RiwayatTransaksi/TransaksiPDF.vue';
+import BumdesCreate from '@/views/Bumdes/BumdesCreate.vue';
+import UserIndex from '@/views/Users/UserIndex.vue';
+import UserCreate from '@/views/Users/UserCreate.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,11 +83,12 @@ const router = createRouter({
       },
       children: [
         {
-            path: '/',
-            name: 'dashboard',
-            component: Dashboard,
+            path: '/dashboard-desa',
+            name: 'dashboard-desa',
+            component: DashboardDesa,
             meta: {
               requiresAuth: true,
+              roles: ['Admin','Kepala Desa']
             }
         },
         // Modul citizen
@@ -82,6 +98,7 @@ const router = createRouter({
           component: CitizenIndex,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         {
@@ -90,6 +107,7 @@ const router = createRouter({
           component: CitizenCreate,
           meta: {
             requiresAuth: true,
+            roles: ['Admin']
           }
         },
         {
@@ -98,6 +116,7 @@ const router = createRouter({
           component: CitizenDetail,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         {
@@ -105,7 +124,8 @@ const router = createRouter({
           name: 'master-data.citizen-edit',
           component: CitizenEdit,
           meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            roles: ['Admin']
           }
         },
 
@@ -116,6 +136,7 @@ const router = createRouter({
           component: CitizenAttachmanIndex,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         // Routing family-card
@@ -124,7 +145,8 @@ const router = createRouter({
           name: 'master-data.family-card',
           component: FamilyCardIndex,
           meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         {
@@ -133,6 +155,7 @@ const router = createRouter({
           component: FamilyCardCreate,
           meta: {
             requiresAuth: true,
+            roles: ['Admin']
           }
         },
         {
@@ -141,6 +164,7 @@ const router = createRouter({
           component: FamilyCardDetail,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         {
@@ -158,6 +182,7 @@ const router = createRouter({
           component: LatterTypeIndex,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
 
@@ -168,6 +193,7 @@ const router = createRouter({
           component: LetterIndex,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         {
@@ -176,6 +202,7 @@ const router = createRouter({
           component: LetterDetail,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         {
@@ -201,6 +228,7 @@ const router = createRouter({
           component: SosialAssistanceIndex,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         {
@@ -225,6 +253,7 @@ const router = createRouter({
           component: SosialAssistanceRecipientIndex,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         {
@@ -241,6 +270,7 @@ const router = createRouter({
           component: SosialAssistanceRecipientDetail,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         {
@@ -279,30 +309,13 @@ const router = createRouter({
           component: Profile,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
         {
           path: '/profile/edit',
           name: 'profile-edit',
           component: ProfileVillageEdit,
-          meta: {
-            requiresAuth: true,
-          }
-        },
-
-        // Bumdes untuk operator
-        {
-          path: '/bumdes',
-          name: 'bumdes',
-          component: BumdesIndex,
-          meta: {
-            requiresAuth: true,
-          }
-        },
-        {
-          path: '/bumdes/edit',
-          name: 'bumdes-edit',
-          component: EditBumdes,
           meta: {
             requiresAuth: true,
           }
@@ -315,25 +328,230 @@ const router = createRouter({
           component: ProfileUser,
           meta: {
             requiresAuth: true,
+            roles: ['Admin','Kepala Desa']
           }
         },
+        {
+          path: 'user',
+          name: 'user',
+          component: UserIndex,
+          meta: {
+            requiresAuth: true,
+            roles: ['Admin']
+          }
+        },
+        {
+          path: '/user/create',
+          name: 'user-create',
+          component: UserCreate,
+          meta: {
+            requiresAuth: true,
+            roles: ['Admin']
+          }
+        },
+
+        // Bumdes untuk operator
+        {
+            path: '/dashboard-bumdes',
+            name: 'dashboard-bumdes',
+            component: DashboardBumdes,
+            meta: {
+              requiresAuth: true,
+              roles: ['Operator','Kepala Desa']
+            }
+        },
+        {
+          path: '/bumdes',
+          name: 'bumdes',
+          component: BumdesIndex,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator','Kepala Desa']
+          }
+        },
+        {
+          path: '/bumdes/create',
+          name: 'bumdes-create',
+          component: BumdesCreate,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator']
+          }
+        },
+        {
+          path: '/bumdes/edit',
+          name: 'bumdes-edit',
+          component: EditBumdes,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator']
+          }
+        },
+        {
+          path: '/unit-usaha',
+          name: 'unit-usaha',
+          component:BumdesUnitIndex,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator','Kepala Desa']
+          }
+        },
+        {
+          path: 'unit-usaha/create',
+          name: 'unit-usaha-create',
+          component: BumdesUnitCreate,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator']
+          }
+        },
+        {
+          path: 'unit-usaha/edit/:id',
+          name: 'unit-usaha-edit',
+          component: BumdesUnitEdit,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator']
+          }
+        },
+        {
+          path: 'sales',
+          name: 'sales',
+          component: BumdesSalesIndex,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator','Kepala Desa']
+          }
+        },
+        {
+          path: 'sales/detail/:id',
+          name: 'sales-detail',
+          component: BumdesSalesDetail,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator','Kepala Desa']
+          }
+        },
+        {
+          path: 'product',
+          name: 'product',
+          component: BumdesProductIndex,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator','Kepala Desa']
+          }
+        },
+        {
+          path: 'product/create',
+          name: 'product-create',
+          component: BumdesProductCreate,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator']
+          }
+        },
+        {
+          path: 'product/edit/:id',
+          name: 'product-edit',
+          component: BumdesProductEdit,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator']
+          }
+        },
+        {
+          path: 'sales-item',
+          name: 'sales-item',
+          component: BumdesSalesItemIndex,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator']
+          }
+        },
+        {
+          path: 'riwayat-transaksi',
+          name: 'riwayat-transaksi',
+          component: RiwayatTransaksiIndex,
+          meta: {
+            requiresAuth: true,
+            roles: ['Operator','Kepala Desa']
+          }
+        },
+        {
+          path: 'transaksi-pdf',
+          name: 'transaksi-pdf',
+          component: TransaksiPDF,
+          meta: {
+            requiresAuth: true,
+          }
+        }
       ]
     },
   ],
 });
 
+
+// Function redirect dashboard berdasarkan role
+const getDashboardByRole = (role) => {
+  switch(role) {
+    case 'Admin': 
+    return '/dashboard-desa'
+
+    case 'Kepala Desa':
+      return '/dashboard-desa'
+
+    case 'Operator':
+      return '/sales-item'
+
+    default: 
+      return '/login'
+  }
+}
+
+// Router Guard
 router.beforeEach((to) => {
   const token = localStorage.getItem("token");
+  const userData = localStorage.getItem('user');
 
-  if(to.meta.requiresAuth && !token) {
-    return "/login";
+  // Belum login
+  if(!token) {
+    if(to.meta.requiresAuth){
+      return '/login'
+    }
+
+    return true
   }
 
-  if(to.meta.guest && token){
-    return "/"
-  }
+    // jika sudah login, tidak boleh masuk kehalaman guest
+    if(to.meta.guest){
 
-  return true;
+      if(!userData){
+        return true
+      }
+
+      const user =JSON.parse(userData)
+      const role = user .role?.name
+
+      return getDashboardByRole(role)
+
+    }
+
+    // Cek role  halaman
+    if(to.meta.roles){
+      if(!userData){
+        return '/login'
+      }
+
+      const user = JSON.parse(userData)
+      const role = user.role?.name
+
+      if(!to.meta.roles.includes(role)){
+        return getDashboardByRole(role)
+      }
+    }
+
+    return true;
+
 })
 
 export default router

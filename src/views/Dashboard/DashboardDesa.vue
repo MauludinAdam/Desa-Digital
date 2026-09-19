@@ -198,7 +198,7 @@ onMounted(() => {
   <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
     <div class="card py-4 text-white p-4 w-100" style="background: #0F172B">
       <h3 class="fw-bold">Halo {{ user.name }},👋</h3><hr>
-      <span><marquee>Selamat Datang Di Sistem Informasi Administrasi Desa Digital Lewogeka</marquee></span>
+      <h5>Selamat Datang Di Sistem Informasi Administrasi Desa Digital Lewogeka</h5>
     </div>
   </div>
   <div class="row">

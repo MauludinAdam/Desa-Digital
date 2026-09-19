@@ -15,3 +15,19 @@ export const forgotPassword = (data) => {
 export const resetPassword = (data) => {
     return api.post('/reset-password', data);
 }
+
+export const getUser = (params = {}) => {
+    return api.get('/user', {
+        params,
+    })
+}
+
+export const createUser = (data) => {
+    return api.post('/user', data);
+}
+
+export const updateStatusUser = (id, status) => {
+    return api.put(`/user/${id}/status`, {
+        status: status
+    });
+}

@@ -6,7 +6,6 @@ import { detailCitizen, updateCitizen } from "@/services/citizenService";
 import { getFamilyCardOptions } from "@/services/FamilyCardService";
 import { getOccupationOptions } from "@/services/OccupationService";
 import { getEducationOptions } from "@/services/EducationService";
-import { getReligionOption } from "@/services/ReligionService";
 
 const router = useRouter();
 const route = useRoute();
@@ -26,7 +25,7 @@ const form = ref({
     phone_number: "",
     occupation_id: "",
     education_id: "",
-    religion_id: "",
+    religion: "",
     blood_type: "",
     marital_status: "",
     email: "",
@@ -48,7 +47,7 @@ const getData = async () => {
         form.value.place_of_birth = data.place_of_birth;
         form.value.date_of_birth = data.date_of_birth;
         form.value.occupation_id = data.occupation.id;
-        form.value.religion_id = data.religion.id;
+        form.value.religion = data.religion;
         form.value.education_id = data.education.id;
         form.value.blood_type = data.blood_type;
         form.value.nationality = data.nationality;
@@ -90,16 +89,6 @@ const fetchEducation = async () => {
         console.log(error);
     }
 };
-
-const fetchReligion = async () => {
-    try {
-        const response = await getReligionOption(route.params.id);
-
-        religions.value = response.data.data;
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 const updateData = async () => {
     loading.value = true;
@@ -145,7 +134,6 @@ onMounted(() => {
     fetchEducation();
     fetchFamilyCard();
     fetchOccupation();
-    fetchReligion();
     getData();
 });
 
@@ -172,7 +160,11 @@ onMounted(() => {
                             </div>
                             <div class="form-group">
                                 <label for="">jenis Kelamin</label>
-                               <input type="text" class="form-control" :value="form.gender ? 'Laki-Laki' : 'perempuan'" readonly>
+                                <select v-model="form.gender" class="form-control" :class="{'is-invalid': errors.gender}">
+                                    <option value="male">Laki-Laki</option>
+                                    <option value="female">Perempuan</option>
+                                </select>
+                                <small class="text-danger" v-if="errors.gender">{{ errors.gender[0] }}</small>
                             </div>
                            <div class="form-group">
                                 <label for="">Email</label>
@@ -231,7 +223,8 @@ onMounted(() => {
                             </div>
                             <div class="form-group">
                                 <label for="">Agama</label>
-                                <input type="text" :value="religions" class="form-control" readonly>
+                                <input type="text" v-model="form.religion" class="form-control" :class="{'is-invalid': errors.religion}" readonly>
+                                <small class="text-danger" v-if="errors.religion">{{ errors.religion[0] }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="">Pendidikan</label>

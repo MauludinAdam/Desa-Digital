@@ -9,6 +9,9 @@ const fetchUser = async () => {
 
         user.value = response.data.data;
 
+        console.log('USER:', user.value);
+        console.log('ROLE:', user.value?.role);
+
         console.log(user.value);
         
     } catch (error) {
@@ -17,15 +20,15 @@ const fetchUser = async () => {
 };
 
 const isAdmin = computed(() => {
-    return user.value?.role?.name === 'admin';
+    return user.value?.role?.name === 'Admin';
 });
 
 const isHeadman = computed(() => {
-    return user.value?.role?.name === 'headman';
+    return user.value?.role?.name === 'Kepala Desa';
 });
 
 const isOperator = computed(() => {
-    return user.value?.role?.name === 'operator'
+    return user.value?.role?.name === 'Operator'
 })
 
 export const useAuth = () => {
