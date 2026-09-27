@@ -289,10 +289,16 @@ onMounted(() => {
                                     <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
+                            <tr v-else-if="loading">
+                                <td colspan="7" class="text-center">
+                                    <p class="spinner-border text-secondary"></p>
+                                    <p class="text-center">Sedang memuat...</p>
+                                </td>
+                            </tr>
                             <tr v-else>
                                 <td colspan="7" class="text-center py-4">
-                                    <p class="text-center"><i class="fas fa-folder"></i></p>
-                                    <p class="text-center">{{ isSearching ? 'Data tidak ditemukan': 'Data belum ada!.' }}</p>
+                                    <p class="text-center text-muted" style="font-size: 2.5rem;"><i class="fas fa-folder"></i></p>
+                                    <p class="text-center text-muted">{{ isSearching ? 'Data tidak ditemukan': 'Data belum ada!.' }}</p>
                                 </td>
                             </tr>
                         </tbody>

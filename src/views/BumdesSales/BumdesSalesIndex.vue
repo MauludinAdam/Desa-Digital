@@ -2,10 +2,9 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import Swal from 'sweetalert2';
 import { deleteBumdesSales, getBumdesSaleses } from '@/services/BumdesSales';
-import { useAuth } from '@/helpers/auth';
 import { formatRupiah } from '@/utils/FormatRupiah';
+import { getMe } from '@/services/UserService';
 
-const { isHeadman, isOperator } = useAuth();
 
 const sales = ref([]);
 
@@ -13,6 +12,9 @@ const loading = ref(false);
 const errors = ref({});
 
 const search = ref('');
+
+const user = ref(null);
+
 
 // pagination
 const currentPage = ref(1);
@@ -118,8 +120,33 @@ const deleteData = async (id) => {
     }
 }
 
+const fetchUser = async() => {
+    try {
+        const response = await getMe();
+
+        console.log(response.data);
+
+        user.value = response.data.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const isAdmin = computed(() => {
+    return user.value?.role?.name === 'Admin';
+});
+
+const isOperator = computed(() => {
+    return user.value?.role?.name === 'Operator';
+});
+
+const isHeadman = computed(() => {
+    return user.value?.role?.name === 'Kepala Desa';
+});
+
 onMounted(() => {
     getData();
+    fetchUser();
 })
 
 
@@ -183,6 +210,12 @@ onMounted(() => {
                                 <td v-if="isOperator" width="18%">
                                     <RouterLink :to="{name: 'sales-detail', params: {id: item.id}}" class="btn btn-info btn-sm mx-1"><i class="fas fa-eye"></i></RouterLink>
                                     <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr v-else-if="loading">
+                                <td colspan="9" class="text-center">
+                                    <p class="spinner-border text-secondary"></p>
+                                    <p class="text-center">Sedang memuat...</p>
                                 </td>
                             </tr>
                             <tr v-else>

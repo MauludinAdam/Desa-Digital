@@ -271,6 +271,12 @@ onMounted(() => {
                                         class="fas fa-trash"></i></button>
                             </td>
                         </tr>
+                        <tr v-else-if="loading">
+                            <td colspan="3" class="text-center py-4 mt-3">
+                                <p class="spinner-border text-secondary"></p>
+                                <p class="text-muted">Sedang memuat...</p>
+                            </td>
+                        </tr>
                         <tr v-else>
                             <td colspan="5" class="text-center py-4">
                                 <p class="text-center"><i class="fas fa-folder fa-3x text-muted"></i></p>

@@ -2,16 +2,16 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
-import { useAuth } from '@/helpers/auth';
 import { deleteBumdesUnit, getBumdesUnits } from '@/services/BumdesUnit';
-
-const { isHeadman, isOperator } = useAuth();
+import { getMe } from '@/services/UserService';
 
 const bumdesunit = ref([]);
 
 const loading = ref(false);
 const errors = ref({});
 const message = ref("");
+
+const user = ref(null);
 
 const search = ref('');
 
@@ -119,8 +119,34 @@ const deleteData = async (id) => {
     }
 }
 
+const fetchUser = async () => {
+    try {
+        const response = await getMe();
+
+        console.log(response.data);
+
+        user.value = response.data.data;
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const isAdmin = computed(() => {
+    return user.value?.role?.name === 'Admin';
+});
+
+const isOperator = computed(() => {
+    return user.value?.role?.name === 'Operator';
+});
+
+const isHeadman = computed(() => {
+    return user.value?.role?.name === 'Kepala Desa';
+})
+
 onMounted(() => {
     getData();
+    fetchUser();
 })
 
 </script>
@@ -185,6 +211,12 @@ onMounted(() => {
                                         <RouterLink :to="{name: 'unit-usaha-edit', params: {id: item.id}}" class="btn btn-warning btn-sm mx-1"><i
                                                 class="fas fa-pen-square"></i></RouterLink>
                                         <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr v-else-if="loading">
+                                    <td colspan="7" class="text-center py-4">
+                                        <p class="spinner-border text-secondary mt-2"></p>
+                                        <p class="text-center">Sedang memuat ...</p>
                                     </td>
                                 </tr>
                                 <tr v-else>

@@ -54,7 +54,7 @@ const totalData = ref(0);
 
 const getData = async () => {
     try {
-        loading.vue = true;
+        loading.value = true;
         errors.value = {};
         message.value = '';
 
@@ -311,10 +311,16 @@ onMounted(() => {
                                     <button v-if="isAdmin" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
+                             <tr v-else-if="loading">
+                                    <td colspan="7" class="text-center">
+                                        <p class="spinner-border text-secondary"></p>
+                                        <p class="text-center">Sedang memuat...</p>
+                                    </td>
+                                </tr>
                             <tr v-else>
                                 <td colspan="7" class="text-center">
-                                    <i class="fas fa-folder-closed"></i> 
-                                    {{ isSearching ? 'Data tidak ditemukan!' : 'Belum ada data!' }}
+                                    <p class="text-muted" style="font-size: 2.5rem;"><i class="fas fa-folder"></i></p> 
+                                    <p class="text-muted">{{ isSearching ? 'Data tidak ditemukan!' : 'Belum ada data.!' }}</p>
                                 </td>
                             </tr>
                         </tbody>

@@ -208,6 +208,18 @@ onMounted(() => {
                                             class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
+                            <tr v-else-if="loading">
+                                <td colspan="8" class="text-center">
+                                    <p class="spinner-border text-secondary"></p>
+                                    <p class="text-muted">Sedang memuat...</p>
+                                </td>
+                            </tr>
+                            <tr v-else>
+                                <td colspan="8" class="text-center py-4">
+                                    <p class="text-muted"><i class="fas fa-folder fa-3x"></i></p>
+                                    <p class="text-muted">{{ isSearching ? 'Data tidak ditemukan': 'Belum ada data.!' }}</p>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

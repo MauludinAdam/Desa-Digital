@@ -51,7 +51,9 @@ onMounted(() => {
           <!-- End Logo Header -->
         </div>
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          
           <div class="sidebar-content">
+
             <ul class="nav nav-secondary">
                 <li v-if="can('dashboard-desa-menu')" class="nav-item">
                     <RouterLink :to="{name: 'dashboard-desa'}" :class="{active: route.name?.startsWith('dashboard-desa')}">
@@ -129,7 +131,7 @@ onMounted(() => {
                   <ul class="nav nav-collapse">
                     <li v-if="can('sosial-assistance-category-menu')" :class="{active: route.name === 'master-sosial.sosial-category' || route.name?.startsWith('master-sosial.sosial-category-')}">
                       <RouterLink :to="{name: 'master-sosial.sosial-category'}">
-                        <span class="sub-item">Kategori Sosial</span>
+                        <span class="sub-item">Kategori Bansos</span>
                       </RouterLink>
                     </li>
                     <li v-if="can('sosial-assistance-menu')" :class="{active: route.name === 'master-sosial.bantuan-sosial' || route.name?.startsWith('master-sosial.bantuan-sosial-')}">
@@ -160,7 +162,7 @@ onMounted(() => {
               </li>
               <li v-if="can('profile-village-menu')" class="nav-item">
                 <RouterLink :to="{name: 'profile'}" :class="{active: route.name?.startsWith('profile')}">
-                     <i class="fas fa-gears"></i>
+                     <i class="fa-solid fa-building-user"></i>
                    <span class="sub-item">Profile</span>
                 </RouterLink>
               </li>
@@ -170,11 +172,18 @@ onMounted(() => {
                    <span class="sub-item">User</span>
                 </RouterLink>
               </li>
+              <li v-if="can('role-permission-menu')" class="nav-item">
+                <RouterLink :to="{name: 'pengaturan'}" :class="{active: route.name?.startsWith('pengaturan')}">
+                     <i class="fas fa-gears"></i>
+                   <span class="sub-item">Pengaturan</span>
+                </RouterLink>
+              </li>
               
               <!-- fitur BUMDes -->
-              <li v-if="can('bumdes-menu')" class="nav-item mt-3" style="color: #666;">
+              <li class="nav-item mt-3" style="color: #666;">
                 <span v-if="isHeadman" class="text-center mx-4">BUMDes</span>
               </li>
+
               <li v-if="can('dashboard-bumdes-menu')" class="nav-item">
                    <RouterLink :to="{name: 'dashboard-bumdes'}" :class="{active: route.name?.startsWith('dashboard-bumdes')}">
                     <i class="fas fa-home"></i>
@@ -199,7 +208,7 @@ onMounted(() => {
                    <span class="sub-item">Data Product</span>
                 </RouterLink>
               </li>
-              <li v-if="can('bumdes-sales-item-menu')" class="nav-item">
+              <li v-if="isOperator" class="nav-item">
                 <RouterLink :to="{name: 'sales-item'}" :class="{active: route.name?.startsWith('sales-item')}">
                      <i class="fas fa-cart-plus"></i>
                    <span class="sub-item">POS / Kasir</span>

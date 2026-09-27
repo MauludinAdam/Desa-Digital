@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { login, logout } from '@/services/authService';
 import Swal from 'sweetalert2';
@@ -18,6 +18,9 @@ const successMessage = ref("");
 const loading = ref(false);
 const errors = ref({});
 
+const rateLimitSeconds = ref(0);
+const rateLimitTimer = null;
+
 const logoutMessage = localStorage.getItem("logoutMessage");
 
 if(logoutMessage) {
@@ -33,6 +36,31 @@ if(logoutMessage) {
 
     localStorage.removeItem("logoutMessage");
 }
+
+const startRateLimitCountdown = (seconds) => {
+    rateLimitSeconds.value = seconds;
+
+    if(rateLimitTimer){
+        clearInterval(rateLimitTimer);
+    }
+
+    rateLimitTimer = setInterval(() => {
+        if(rateLimitSeconds.value > 0){
+            rateLimitSeconds.value--;
+        }
+
+        if(rateLimitSeconds.value <= 0){
+            clearInterval(rateLimitTimer);
+            rateLimitTimer = null;
+        }
+    }, 1000);
+};
+
+onBeforeUnmount(() => {
+    if(rateLimitTimer) {
+        clearInterval(rateLimitTimer);
+    }
+});
 
 const submitLogin = async() => {
     loading.value = true;
@@ -75,12 +103,6 @@ const submitLogin = async() => {
 
         localStorage.setItem("loginMessage","Anda berhasil login");
 
-
-        // router.push({
-        //     name: 'dashboard-desa'
-        // })
-        // const role = user.role?.name?.toLowerCase();
-
         const user = response.data.data.data
         
         const role = user.role?.name
@@ -95,6 +117,7 @@ const submitLogin = async() => {
            await router.push({name: 'dashboard-desa'})
         }else{
             console.log(role)
+            
             Swal.fire({
                 icon: 'error',
                 title: 'Role tidak dikenali',
@@ -105,27 +128,38 @@ const submitLogin = async() => {
     } catch (error) {
         console.log('LOGIN ERROR:', error)
         if(error.response){
-            if(error.response.status === 401){
-                message.value = "Email atau password salah";
+
+            if(error.response.status === 429) {
+                message.value = error.response.data.message || "Maaf, Kesalahan Saat login maksimal 3 kali.";
+                setTimeout(() => {
+                    message.value = "";
+                }, 3000);
+                const match = message.value.match(/(\d+)\s*detik/);
+
+                if(match){
+                    startRateLimitCountdown(Number(match[1]));
+                }
+
+            }else if(error.response.status === 400){
+
+                message.value = "Email atau passowrd salah";
+
+                setTimeout(() => {
+                    message.value = "";
+                }, 3000);
+
             }else if(error.response.status === 500){
-                message.value = "Terjadi kesalahan pada server, silahkan coba lagi nanti,";
-
+                message.value = "Terjadi kesalahan pada server, Silahkan coba lagi nanti";
                 setTimeout(() => {
                     message.value = "";
-                }, 4000);
+                }, 3000);
             }else{
-                message.value = error.response.data.message || "Terjadi kesalahan";
+                message.value = "Tidak dapat terhubung ke server. Mohon periksa kembali koneksi internet anda.";
 
                 setTimeout(() => {
                     message.value = "";
-                }, 4000);
+                }, 3000);
             }
-        }else{
-            message.value = "Tidak dapat terhubung ke server. Mohon periksa kembali koneksi internet anda!.";
-
-            setTimeout(() => {
-                message.value = "";
-            }, 4000);
         }
         
     }finally{
@@ -173,7 +207,7 @@ const submitLogin = async() => {
                         </div>
                     </div>
                     <div class="login-button">
-                        <button type="submit" :disabled="loading" class="btn btn-dark w-100"> <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ loading ? "Loading...": "login" }}</button>
+                        <button type="submit" :disabled="loading || rateLimitSeconds > 0" class="btn btn-dark w-100"> <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ loading ? "Loading...": rateLimitSeconds > 0 ? `tunggu ${rateLimitSeconds} detik ...` : "login" }}</button>
                     </div>
                 </form>
             </div>

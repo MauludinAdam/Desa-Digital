@@ -177,6 +177,12 @@ onMounted(() => {
                                     <button v-if="isAdmin" @click="deleteData(item.id)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
+                            <tr v-else-if="loading">
+                                <td colspan="10" class="text-center">
+                                    <p class="spinner-border text-secondary"></p>
+                                    <p class="text-center text-muted">Sedang memuat...</p>
+                                </td>
+                            </tr>
                             <tr v-else>
                                 <td colspan="10" class="text-center text-muted py-4">
                                     <p style="font-size: 3rem;"><i class="fas fa-folder"></i></p>

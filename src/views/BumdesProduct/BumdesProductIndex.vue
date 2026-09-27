@@ -135,7 +135,7 @@ onMounted(() => {
                     <h5 class="fw-bold">Data Product</h5>
                 </div>
                 <div class="card-tools">
-                    <RouterLink :to="{ name: 'product-create' }" class="btn text-white" style="background: #2F4F4F;"><i
+                    <RouterLink v-if="isHeadman" :to="{ name: 'product-create' }" class="btn text-white" style="background: #2F4F4F;"><i
                             class="fas fa-plus"></i> Tambah Data</RouterLink>
                 </div>
             </div>
@@ -194,6 +194,12 @@ onMounted(() => {
                                     </RouterLink>
                                     <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i
                                             class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr v-else-if="loading">
+                                <td colspan="9" class="text-center py-4">
+                                    <p class="spinner-border text-secondary"></p>
+                                    <p class="text-center">Sedang memuat...</p>
                                 </td>
                             </tr>
                             <tr v-else>

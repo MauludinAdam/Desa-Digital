@@ -191,10 +191,16 @@ onMounted(() => {
                                         title="Hapus">Hapus</button>
                                 </td>
                             </tr>
+                            <tr v-else-if="loading">
+                                <td colspan="7" class="text-center py-4">
+                                    <p class="spinner-border text-secondary"></p>
+                                    <p class="text-muted">Sedang memuat...</p>
+                                </td>
+                            </tr>
                             <tr v-else>
                                 <td colspan="7" class="text-center text-muted py-4">
                                     <p style="font-size: 3rem;"><i class="fas fa-folder"></i></p>
-                                    <p class="mb-5">{{ isSearching ? 'Data tidak ditemuka': 'Belum ada data!' }}</p>
+                                    <p class="mb-5">{{ isSearching ? 'Data tidak ditemukan': 'Belum ada data!' }}</p>
                                 </td>
                             </tr>
                         </tbody>

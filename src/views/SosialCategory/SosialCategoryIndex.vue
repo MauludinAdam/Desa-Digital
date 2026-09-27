@@ -291,8 +291,14 @@ onMounted(() => {
                                         class="fas fa-trash"></i></button>
                             </td>
                         </tr>
+                        <tr v-else-if="loading">
+                            <td colspan="5" class="text-center">
+                                <p class="spinner-border text-secondary"></p>
+                                <p class="text-muted">Sedang memuat...</p>
+                            </td>
+                        </tr>
                         <tr v-else>
-                            <td colspan="7" class="text-center">
+                            <td colspan="5" class="text-center">
                                 <i class="fa-solid fa-folder-closed fa-3x text-muted mt-5"></i><br>
                                 {{ isSearching ? 'Data tidak ditemuka!' : 'Belum ada data' }}
                             </td>

@@ -5,11 +5,14 @@ import { formatRupiah } from '@/utils/FormatRupiah';
 import Swal from 'sweetalert2';
 import html2pdf from 'html2pdf.js';
 import TransaksiPDF from './TransaksiPDF.vue';
+import { getMe } from '@/services/UserService.js';
 
 const sales = ref([]);
 const loading = ref(false);
 
 const search = ref('');
+
+const user = ref(null);
 
 const startDate = ref('')
 const endDate = ref('')
@@ -216,9 +219,33 @@ const exportExcel= async () => {
     }
 }
 
+const fetchUser = async() => {
+    try {
+        const response = await getMe();
+
+        console.log(response.data);
+
+        user.value = response.data.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const isAdmin = computed(() => {
+    return user.value?.role?.name === 'Admin';
+});
+
+const isOperator = computed(() => {
+    return user.value?.role?.name === 'Operator';
+})
+
+const isHeadman = computed(() => {
+    return user.value?.role?.name === 'Kepala Desa';
+})
 
 onMounted(() => {
     getData();
+    fetchUser();
 })
 
 </script>
@@ -231,8 +258,8 @@ onMounted(() => {
                 <div class="card-title">
                     <h5 class="fw-bold">Data Riwayat Transaksi</h5>
                 </div>
-                <div class="card-tools d-flex gap-2">
-                    <button @click="printTransaksi" class="btn btn-outline-danger"><i class="fas fa-file-pdf"></i>Download PDf</button>
+                <div v-if="isOperator" class="card-tools d-flex gap-2">
+                    <button @click="printTransaksi" class="btn btn-outline-danger"><i class="fas fa-file-pdf"></i>Download PDF</button>
                     <button @click="exportExcel" class="btn btn-outline-success"><i class="fas fa-file-excel"></i> Export Excel</button>
                 </div>
             </div>
@@ -275,17 +302,23 @@ onMounted(() => {
                                 <th>Total</th>
                                 <th>Pembayaran</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
+                                <th v-if="isHeadman">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="sales.length === 0">
+                            <tr v-if="loading">
+                                <td colspan="8" class="text-center">
+                                    <p class="spinner-border text-secondary"></p>
+                                    <p class="text-center">Sedang memuat...</p>
+                                </td>
+                            </tr>
+                            <tr v-else-if="sales.length === 0">
                                 <td colspan="8" class="text-center py-4" style="font-size: 3rem;">
                                     <p class="text-muted"><i class="fas fa-folder fa-3x"></i></p>
                                     <p class="text-muted">Data Riwayat Transaksi Kosong</p>
                                 </td>
                             </tr>
-                            <tr v-for="(item, index) in sales" :key="item.id">
+                            <tr v-else v-for="(item, index) in sales" :key="item.id">
                                 <td>{{ (currentPage - 1) * perPage + index + 1 }}</td>
                                 <td>{{ item.invoice_number }}</td>
                                 <td>{{ item.sale_date }}</td>
@@ -293,7 +326,7 @@ onMounted(() => {
                                 <td>{{ formatRupiah(item.total_amount) }}</td>
                                 <td class="text-center">{{ item.payment_method }}</td>
                                 <td class="text-center">{{ item.status }}</td>
-                                <td>
+                                <td v-if="isOperator">
                                     <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
