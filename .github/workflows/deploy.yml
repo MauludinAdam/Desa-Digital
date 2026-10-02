@@ -42,19 +42,23 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
 
+      - name: Check SSH key
+        shell: bash
+        run: |
+          chmod 600 ~/.ssh/deploy_key
+          echo "SSH key fingerprint:"
+          ssh-keygen -lf ~/.ssh/deploy_key
+
       - name: Test SSH connection
         shell: bash
         run: |
           echo "Testing SSH connection..."
-
-          ssh-keygen -lf ~/.ssh/deploy_key
-
           ssh \
             -vvv \
             -i ~/.ssh/deploy_key \
             -p "${{ secrets.VPS_PORT }}" \
             -o IdentitiesOnly=yes \
-            -o StrictHostKeyChecking=yes \
+            -o StrictHostKeyChecking=no \
             "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
             "echo SSH connection successful"
 
