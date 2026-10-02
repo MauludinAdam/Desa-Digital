@@ -19,7 +19,7 @@ const loading = ref(false);
 const errors = ref({});
 
 const rateLimitSeconds = ref(0);
-const rateLimitTimer = null;
+let rateLimitTimer = null;
 
 const logoutMessage = localStorage.getItem("logoutMessage");
 
@@ -126,7 +126,6 @@ const submitLogin = async() => {
         }
 
     } catch (error) {
-        console.log('LOGIN ERROR:', error)
         if(error.response){
 
             if(error.response.status === 429) {
