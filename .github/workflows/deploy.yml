@@ -28,9 +28,13 @@ jobs:
         run: npm run build
 
       - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.1
-        with:
-          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+
+          echo "${{ secrets.VPS_SSH_KEY_B64 }}" | base64 --decode > ~/.ssh/deploy_key
+
+          chmod 600 ~/.ssh/deploy_key
 
       - name: Add VPS to known hosts
         shell: bash
