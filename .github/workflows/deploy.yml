@@ -69,6 +69,6 @@ jobs:
             --exclude='.well-known/' \
             --exclude='.htaccess' \
             --exclude='.user.ini' \
-            -e "ssh -p ${{ secrets.VPS_PORT }}" \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no" \
             dist/ \
             "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/www/wwwroot/desadigital.my.id/"
