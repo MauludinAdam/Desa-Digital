@@ -27,28 +27,32 @@ jobs:
       - name: Build Vue application
         run: npm run build
 
-      
-      
-      - name: Deploy dist to VPS
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Add VPS to known hosts
         shell: bash
         run: |
-            mkdir -p ~/.ssh
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
 
-            echo "${{ secrets.VPS_SSH_KEY }}" | tr -d '\r' > ~/.ssh/deploy_key
-            chmod 600 ~/.ssh/deploy_key
-
-            ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
-
-            ssh \
-            -i ~/.ssh/deploy_key \
+      - name: Test SSH connection
+        shell: bash
+        run: |
+          ssh \
             -p "${{ secrets.VPS_PORT }}" \
             "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
             "echo SSH connection successful"
 
-            rsync -avz \
+      - name: Deploy dist to VPS
+        shell: bash
+        run: |
+          rsync -avz \
             --exclude='.well-known/' \
             --exclude='.htaccess' \
             --exclude='.user.ini' \
-            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }}" \
+            -e "ssh -p ${{ secrets.VPS_PORT }}" \
             dist/ \
             "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/www/wwwroot/desadigital.my.id/"
