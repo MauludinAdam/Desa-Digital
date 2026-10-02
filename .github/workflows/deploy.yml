@@ -45,8 +45,16 @@ jobs:
       - name: Test SSH connection
         shell: bash
         run: |
+          echo "Testing SSH connection..."
+
+          ssh-keygen -lf ~/.ssh/deploy_key
+
           ssh \
+            -vvv \
+            -i ~/.ssh/deploy_key \
             -p "${{ secrets.VPS_PORT }}" \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
             "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
             "echo SSH connection successful"
 
