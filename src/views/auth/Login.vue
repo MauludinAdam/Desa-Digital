@@ -201,7 +201,7 @@ const submitLogin = async () => {
                     <div class="col-lg-12">
                         <div class="login-card rounded" style="width: 30rem;">
                             <h2 class="text-center text-black"><i class="fas fa-home"></i></h2>
-                            <h4 class="text-center mb-3">Sistem Administrasi Desa</h4>
+                            <h4 class="text-center mb-3">Sistem Administrasi Desa LG</h4>
                             <div v-if="successMessage" class="alert bg-success text-white">
                                 <i class="fas fa-check-circle"></i> {{ successMessage }}
                             </div>
