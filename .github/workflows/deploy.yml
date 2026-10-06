@@ -71,4 +71,4 @@ jobs:
             --exclude='.user.ini' \
             -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no" \
             dist/ \
-            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/www/wwwroot/desadigita.my.id/"
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/www/wwwroot/desadigita.my.id/dist"
