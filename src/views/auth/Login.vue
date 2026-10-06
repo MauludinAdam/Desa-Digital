@@ -23,7 +23,7 @@ let rateLimitTimer = null;
 
 const logoutMessage = localStorage.getItem("logoutMessage");
 
-if(logoutMessage) {
+if (logoutMessage) {
     Swal.fire({
         toast: true,
         position: 'top-end',
@@ -40,16 +40,16 @@ if(logoutMessage) {
 const startRateLimitCountdown = (seconds) => {
     rateLimitSeconds.value = seconds;
 
-    if(rateLimitTimer){
+    if (rateLimitTimer) {
         clearInterval(rateLimitTimer);
     }
 
     rateLimitTimer = setInterval(() => {
-        if(rateLimitSeconds.value > 0){
+        if (rateLimitSeconds.value > 0) {
             rateLimitSeconds.value--;
         }
 
-        if(rateLimitSeconds.value <= 0){
+        if (rateLimitSeconds.value <= 0) {
             clearInterval(rateLimitTimer);
             rateLimitTimer = null;
         }
@@ -57,34 +57,34 @@ const startRateLimitCountdown = (seconds) => {
 };
 
 onBeforeUnmount(() => {
-    if(rateLimitTimer) {
+    if (rateLimitTimer) {
         clearInterval(rateLimitTimer);
     }
 });
 
-const submitLogin = async() => {
+const submitLogin = async () => {
     loading.value = true;
     message.value = "";
     errors.value = {};
 
-    if(!form.value.email){
+    if (!form.value.email) {
         errors.value.email = ["Email harus diisi"];
     }
 
-    if(form.value.email && !form.value.email.includes("@")){
+    if (form.value.email && !form.value.email.includes("@")) {
         errors.value.email = ["Format email tidak valid"];
     }
 
-    if(!form.value.password){
+    if (!form.value.password) {
         errors.value.password = ["Password harus diisi"];
     }
 
-    if(form.value.password && form.value.password.length < 8) {
+    if (form.value.password && form.value.password.length < 8) {
         errors.value.password = ["Password harus terdiri dari 8 karakter"];
     }
 
     // jika ada error, stop proses login
-    if(Object.keys(errors.value).length > 0){
+    if (Object.keys(errors.value).length > 0) {
         loading.value = false;
 
         return;
@@ -101,23 +101,23 @@ const submitLogin = async() => {
         localStorage.setItem("token", response.data.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.data.data));
 
-        localStorage.setItem("loginMessage","Anda berhasil login");
+        localStorage.setItem("loginMessage", "Anda berhasil login");
 
         const user = response.data.data.data
-        
+
         const role = user.role?.name
 
-        if(role === "Admin"){
-           await router.push({name: 'dashboard-desa'});
+        if (role === "Admin") {
+            await router.push({ name: 'dashboard-desa' });
 
-        }else if(role === "Operator"){
-           await router.push({name: 'sales-item'})
+        } else if (role === "Operator") {
+            await router.push({ name: 'sales-item' })
 
-        }else if(role === "Kepala Desa"){
-           await router.push({name: 'dashboard-desa'})
-        }else{
+        } else if (role === "Kepala Desa") {
+            await router.push({ name: 'dashboard-desa' })
+        } else {
             console.log(role)
-            
+
             Swal.fire({
                 icon: 'error',
                 title: 'Role tidak dikenali',
@@ -126,20 +126,20 @@ const submitLogin = async() => {
         }
 
     } catch (error) {
-        if(error.response){
+        if (error.response) {
 
-            if(error.response.status === 429) {
+            if (error.response.status === 429) {
                 message.value = error.response.data.message || "Maaf, Kesalahan Saat login maksimal 3 kali.";
                 setTimeout(() => {
                     message.value = "";
                 }, 3000);
                 const match = message.value.match(/(\d+)\s*detik/);
 
-                if(match){
+                if (match) {
                     startRateLimitCountdown(Number(match[1]));
                 }
 
-            }else if(error.response.status === 400){
+            } else if (error.response.status === 400) {
 
                 message.value = "Email atau passowrd salah";
 
@@ -147,12 +147,12 @@ const submitLogin = async() => {
                     message.value = "";
                 }, 3000);
 
-            }else if(error.response.status === 500){
+            } else if (error.response.status === 500) {
                 message.value = "Terjadi kesalahan pada server, Silahkan coba lagi nanti";
                 setTimeout(() => {
                     message.value = "";
                 }, 3000);
-            }else{
+            } else {
                 message.value = "Tidak dapat terhubung ke server. Mohon periksa kembali koneksi internet anda.";
 
                 setTimeout(() => {
@@ -160,8 +160,8 @@ const submitLogin = async() => {
                 }, 3000);
             }
         }
-        
-    }finally{
+
+    } finally {
         loading.value = false;
     }
 }
@@ -172,43 +172,81 @@ const submitLogin = async() => {
 <template>
     <div class="login-page">
         <div class="login-container">
-
-            <!-- Login Card -->
-             <div class="login-card rounded">
-                <h2 class="text-center text-black"><i class="fas fa-home"></i></h2>
-                <h4 class="text-center mb-3">Sistem Administrasi Desa</h4>
-                <div v-if="successMessage" class="alert bg-success text-white">
-                    <i class="fas fa-check-circle"></i> {{ successMessage }}
-                </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="text-content bg-white p-3 rounded" style="width: 16rem; height: 31rem;">
+                        <div class="py-4 mt-5">
+                            <ul>
+                                <li><h6>Login Untuk Admin</h6></li>
+                                <small>email : admin@gmail.com</small><br>
+                                <small>Password : admin123</small>
+                            </ul>
+                            <ul>
+                                <li><h6>Login Untuk Operator</h6></li>
+                                <small>email : operator@gmail.com</small><br>
+                                <small>Password : operator</small>
+                            </ul>
                 
-                <div v-if="message" class="alert bg-danger alert-dismissable fade show text-white">
-                    <i class="fas fa-exlamation-triangle me-2"></i> {{ message }}
+                            <ul>
+                               <li><h6>Login Untuk Kepala Desa</h6></li>
+                                <small>email : kades@gmail.com</small><br>
+                                <small>Password : kades123</small>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <form @submit.prevent="submitLogin">
 
-                    <div class="mb-3">
-                         <label for="exampleFormControlInput1" class="form-label">Email</label>
-                         <input type="email" v-model="form.email" class="form-control" :class="{ 'is-invalid' : errors.email }" placeholder="email@gmail.com">
-                         <small class="invalid-feedback">{{ errors.email?.[0] }}</small>
-                    </div>
-                    <div class="mb-3">
-                         <label for="exampleFormControlTextarea1" class="form-label">Password</label>
-                         <input :type="showPassword ? 'text' : 'password'" class="form-control" v-model="form.password" :class="{'is-invalid': errors.password}" placeholder="Password">
-                         <small class="invalid-feedback">{{ errors.password?.[0] }}</small>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="show mb-3 d-flex gap-2">
-                            <label for="">Show password</label>
-                            <input type="checkbox" v-model="showPassword">
+                <div class="col-md-6">
+                    <!-- Login Card -->
+                    <div class="col-lg-12">
+                        <div class="login-card rounded" style="width: 30rem;">
+                            <h2 class="text-center text-black"><i class="fas fa-home"></i></h2>
+                            <h4 class="text-center mb-3">Sistem Administrasi Desa</h4>
+                            <div v-if="successMessage" class="alert bg-success text-white">
+                                <i class="fas fa-check-circle"></i> {{ successMessage }}
+                            </div>
+
+                            <div v-if="message" class="alert bg-danger alert-dismissable fade show text-white">
+                                <i class="fas fa-exlamation-triangle me-2"></i> {{ message }}
+                            </div>
+                            <form @submit.prevent="submitLogin">
+
+                                <div class="mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Email</label>
+                                    <input type="email" v-model="form.email" class="form-control"
+                                        :class="{ 'is-invalid': errors.email }" placeholder="email@gmail.com">
+                                    <small class="invalid-feedback">{{ errors.email?.[0] }}</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Password</label>
+                                    <input :type="showPassword ? 'text' : 'password'" class="form-control"
+                                        v-model="form.password" :class="{ 'is-invalid': errors.password }"
+                                        placeholder="Password">
+                                    <small class="invalid-feedback">{{ errors.password?.[0] }}</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="show mb-3 d-flex gap-2">
+                                        <label for="">Show password</label>
+                                        <input type="checkbox" v-model="showPassword">
+                                    </div>
+                                    <div class="forgot-password">
+                                        <RouterLink :to="{ name: 'forgot-password' }" class="text-decoration-underline">
+                                            Forgot
+                                            Password</RouterLink>
+                                    </div>
+                                </div>
+                                <div class="login-button">
+                                    <button type="submit" :disabled="loading || rateLimitSeconds > 0"
+                                        class="btn btn-dark w-100"> <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                        {{ loading ? "Loading..." :
+                                            rateLimitSeconds > 0 ? `tunggu ${rateLimitSeconds} detik ...` : "login"
+                                        }}</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="forgot-password">
-                            <RouterLink :to="{name: 'forgot-password'}" class="text-decoration-underline">Forgot Password</RouterLink>
-                        </div>
                     </div>
-                    <div class="login-button">
-                        <button type="submit" :disabled="loading || rateLimitSeconds > 0" class="btn btn-dark w-100"> <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ loading ? "Loading...": rateLimitSeconds > 0 ? `tunggu ${rateLimitSeconds} detik ...` : "login" }}</button>
-                    </div>
-                </form>
+                </div>
+
             </div>
 
             <!-- Footer -->
@@ -231,12 +269,9 @@ const submitLogin = async() => {
     padding: 20px;
 
     background:
-        linear-gradient(
-            rgba(9, 3, 36, 0.92),
-            rgba(9, 3, 36, 0.9)
-        ),
-        url("https://images.unsplash.com/photo-1500534623283-312aade485b7")
-        center / cover no-repeat;
+        linear-gradient(rgba(9, 3, 36, 0.92),
+            rgba(9, 3, 36, 0.9)),
+        url("https://images.unsplash.com/photo-1500534623283-312aade485b7") center / cover no-repeat;
 }
 
 /* Container */
@@ -255,7 +290,7 @@ const submitLogin = async() => {
         0 20px 50px rgba(0, 0, 0, 0.25);
 }
 
-.login-card h2 i{
+.login-card h2 i {
     /* display: flex; */
     text-align: center;
     justify-content: center;
@@ -298,7 +333,7 @@ const submitLogin = async() => {
     font-size: 15px;
 }
 
-.login-button .btn{
+.login-button .btn {
     font-size: 1.2rem;
 }
 
@@ -334,5 +369,3 @@ const submitLogin = async() => {
     }
 }
 </style>
-
-
