@@ -245,10 +245,10 @@ onMounted(() => {
                     <div class="show d-flex align-items-center gap-1">
                         <label for="">Show:</label>
                         <select v-model="perPage" class="form-select" style="width: 5rem;">
-                            <option value="">10</option>
-                            <option value="">25</option>
-                            <option value="">50</option>
-                            <option value="">100</option>
+                            <option :value="10">10</option>
+                            <option :value="25">25</option>
+                            <option :value="50">50</option>
+                            <option :value="100">100</option>
                         </select>
                         <label for="">Entries</label>
                     </div>
@@ -266,7 +266,19 @@ onMounted(() => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="occupations.length > 0" v-for="(item, index) in occupations" :key="item.id">
+                        <tr v-if="loading">
+                            <td colspan="3" class="text-center py-4">
+                                <p class="spinner-border text-secondary"></p>
+                                <p class="text-muted">Sedang memuat...</p>
+                            </td>
+                        </tr>
+                        <tr v-else-if="occupations.length === 0 ">
+                            <td colspan="3" class="text-center py-4">
+                                <p class="text-muted"><i class="fas fa-folder fa-3x"></i></p>
+                                <p class="text-muted" style="font-size: 1.2rem;">{{ isSearching ? 'Data tidak ditemuka' : 'Data Masih Kosong!' }}</p>
+                            </td>
+                        </tr>
+                        <tr v-else v-for="(item, index) in occupations" :key="item.id">
                             <td>{{ (currentPage - 1) * perPage + index + 1 }}</td>
                             <td>{{ item.name }}</td>
                             <td>
@@ -276,12 +288,7 @@ onMounted(() => {
                                         class="fas fa-trash"></i></button>
                             </td>
                         </tr>
-                        <tr v-else-if="loading">
-                            <td colspan="3" class="text-center py-4">
-                                <p class="spinner-border text-secondary"></p>
-                                <p class="text-muted">Sedang memuat...</p>
-                            </td>
-                        </tr>
+                        
                     </tbody>
                 </table>
                 <div class="d-flex align-items-center justify-content-between mt-3">
