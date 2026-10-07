@@ -2,9 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getBumdes } from '@/services/ProfileBumdes';
-import { useAuth } from '@/helpers/auth';
-
-const { isHeadman, isOperator } = useAuth();
+import imgDefault from '@/assets/images/img-default.jpg'
 
 const route = useRoute();
 
@@ -26,6 +24,20 @@ const getData = async () => {
     }
 }
 
+const user = ref(null);
+
+const isAdmin = computed(() =>{
+    return user.value?.role?.name === 'Admin';
+});
+
+const isOperator = computed(() => {
+    return user.value?.role?.name === 'Operator';
+});
+
+const isHeadman = computed(() => {
+    return user.value?.role?.name === 'Kepala Desa';
+});
+
 onMounted(() => {
     getData();
 })
@@ -45,7 +57,7 @@ onMounted(() => {
 
     <div class=" row mt-3 p-3" style="background: #fff;">
         <div class="col-md-4">
-            <img :src="bumdes.logo || '/src/assets/images/img-default.jpg'" alt="" class="rounded" width="250" height="250">
+            <img :src="bumdes.logo || imgDefault" alt="" class="rounded" width="250" height="250">
         </div>
         <div class="col-md-8 py-2 mt-2">
             <div class="content align-items-center justify-content-center">
