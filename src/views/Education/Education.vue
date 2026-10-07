@@ -332,7 +332,7 @@ onMounted(() => {
                             <div class="modal-footer">
                                 <button @click="closeModal" type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" :disabled="loading">">{{ loading ?
+                                <button type="submit" class="btn btn-primary" :disabled="loading">{{ loading ?
                                     'Proses menyimpan...' : isEdit ? 'Update': 'Simpan' }}</button>
                             </div>
                         </form>
