@@ -332,7 +332,7 @@ onMounted(() => {
                             v-for="(item, index) in citizenAttachmans" :key="item.id">
                             <td>{{ (currentPage - 1) * perPage + index + 1 }}</td>
                             <td>{{ item.citizen?.full_name }}</td>
-                            <td class="text-center"><i class="fas fa-file-pdf"></i> {{ item.document_type }}</td>
+                            <td><i class="fas fa-file-pdf"></i> {{ item.document_type }}</td>
                             <td class="text-center"><a :href="item.file" target="_blank" class="text-decoration-underline">{{ getFileName(item.file) }}</a>
                             </td>
                             <td class="d-flex gap-2" v-if="isAdmin">

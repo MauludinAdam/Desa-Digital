@@ -195,7 +195,7 @@ const isSearching = computed(() => {
                                     <td colspan="10" class="text-center text-muted py-4">
                                         <p style="font-size: 3rem;"><i class="fas fa-folder"></i>
                                         </p>
-                                        <p class="mb-5">{{ isSearching ? 'Data tidak ditemukan' : 'Data penduduk belum ada' }}</p>
+                                        <p class="mb-5">{{ isSearching ? 'Data tidak ditemukan' : 'Data penduduk masih kosong !' }}</p>
                                     </td>
                                 </tr>
                             </tbody>

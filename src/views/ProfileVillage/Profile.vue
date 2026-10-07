@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { getProfileVillage } from '@/services/ProfileVillage';
 import { useRoute } from 'vue-router';
+import imgDefaultProfile from '@/assets/images/img-default.jpg';
 
 const route = useRoute();
 
@@ -77,7 +78,7 @@ onMounted(() => {
                             </table>
                     </div>
                     <div class="col-md-6">
-                        <img :src="profile.thumbnail || '/src/assets/images/img-default.jpg'" class="rounded" width="400" height="320" alt="">
+                        <img :src="profile.thumbnail || imgDefaultProfile" class="rounded" width="400" height="320" alt="">
                     </div>
                 </div>
             </div>
