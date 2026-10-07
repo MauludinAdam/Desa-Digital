@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { getBumdes } from '@/services/ProfileBumdes';
 import imgDefault from '@/assets/images/img-default.jpg'
+import { getMe } from '@/services/UserService';
 
 const route = useRoute();
 
@@ -38,8 +39,19 @@ const isHeadman = computed(() => {
     return user.value?.role?.name === 'Kepala Desa';
 });
 
+const fetchUser = async () => {
+    try {
+        const response = await getMe();
+
+        user.value = response.data.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 onMounted(() => {
     getData();
+    fetchUser();
 })
 
 </script>
@@ -51,7 +63,7 @@ onMounted(() => {
         </div>
         <div class="fw-bold d-flex gap-2" v-if="isOperator">
             <RouterLink :to="{name: 'bumdes-edit'}" class="btn text-white" style="background: #2F4F4F;"> Edit Profile</RouterLink>
-            <!-- <RouterLink :to="{name: 'bumdes-create'}" class="btn btn-primary">Tambah Profile</RouterLink> -->
+            <RouterLink :to="{name: 'bumdes-create'}" class="btn btn-primary">Tambah Profile</RouterLink>
         </div>
     </div>
 
