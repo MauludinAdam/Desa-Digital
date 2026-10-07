@@ -172,31 +172,7 @@ const submitLogin = async () => {
 <template>
     <div class="login-page">
         <div class="login-container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="text-content bg-white p-3 rounded" style="width: 16rem; height: 31rem;">
-                        <div class="py-4 mt-5">
-                            <ul>
-                                <li><h6>Login Untuk Admin</h6></li>
-                                <small>email : admin@gmail.com</small><br>
-                                <small>Password : admin123</small>
-                            </ul>
-                            <ul>
-                                <li><h6>Login Untuk Operator</h6></li>
-                                <small>email : operator@gmail.com</small><br>
-                                <small>Password : operator</small>
-                            </ul>
-                
-                            <ul>
-                               <li><h6>Login Untuk Kepala Desa</h6></li>
-                                <small>email : kades@gmail.com</small><br>
-                                <small>Password : kades123</small>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
+            
                     <!-- Login Card -->
                     <div class="col-lg-12">
                         <div class="login-card rounded" style="width: 30rem;">
@@ -245,9 +221,6 @@ const submitLogin = async () => {
                             </form>
                         </div>
                     </div>
-                </div>
-
-            </div>
 
             <!-- Footer -->
             <div class="text-center footer-text">
