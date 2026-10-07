@@ -220,7 +220,7 @@ onMounted(() => {
                                 <td>{{ item.email }}</td>
                                 <td>{{ item.role?.name ?? '-' }}</td>
                                 <td class="text-center">
-                                    <span :class="item.status === 'Active' ? 'badge bg-success' : 'badge bg-danger'">{{
+                                    <span :class="item.status === 'active' ? 'badge bg-success' : 'badge bg-danger'">{{
                                         item.status }}</span>
                                 </td>
                                 <td width="10%">
@@ -284,8 +284,8 @@ onMounted(() => {
                             <div class="form-group">
                                 <label for="">Status</label>
                                 <select v-model="form.status" class="form-control" :class="{'is-invalid': errors.status}">
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
                                 </select>
                                 <small class="text-danger" v-if="errors.status">{{ errors.status[0] }}</small>
                             </div>
