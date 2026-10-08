@@ -172,55 +172,54 @@ const submitLogin = async () => {
 <template>
     <div class="login-page">
         <div class="login-container">
-            
-                    <!-- Login Card -->
-                    <div class="col-lg-12">
-                        <div class="login-card rounded" style="width: 30rem;">
-                            <h2 class="text-center text-black"><i class="fas fa-home"></i></h2>
-                            <h4 class="text-center mb-3">Sistem Administrasi Desa LG</h4>
-                            <div v-if="successMessage" class="alert bg-success text-white">
-                                <i class="fas fa-check-circle"></i> {{ successMessage }}
-                            </div>
-
-                            <div v-if="message" class="alert bg-danger alert-dismissable fade show text-white">
-                                <i class="fas fa-exlamation-triangle me-2"></i> {{ message }}
-                            </div>
-                            <form @submit.prevent="submitLogin">
-
-                                <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label">Email</label>
-                                    <input type="email" v-model="form.email" class="form-control"
-                                        :class="{ 'is-invalid': errors.email }" placeholder="email@gmail.com">
-                                    <small class="invalid-feedback">{{ errors.email?.[0] }}</small>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Password</label>
-                                    <input :type="showPassword ? 'text' : 'password'" class="form-control"
-                                        v-model="form.password" :class="{ 'is-invalid': errors.password }"
-                                        placeholder="Password">
-                                    <small class="invalid-feedback">{{ errors.password?.[0] }}</small>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <div class="show mb-3 d-flex gap-2">
-                                        <label for="">Show password</label>
-                                        <input type="checkbox" v-model="showPassword">
-                                    </div>
-                                    <div class="forgot-password">
-                                        <RouterLink :to="{ name: 'forgot-password' }" class="text-decoration-underline">
-                                            Forgot
-                                            Password</RouterLink>
-                                    </div>
-                                </div>
-                                <div class="login-button">
-                                    <button type="submit" :disabled="loading || rateLimitSeconds > 0"
-                                        class="btn btn-dark w-100"> <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                        {{ loading ? "Loading..." :
-                                            rateLimitSeconds > 0 ? `tunggu ${rateLimitSeconds} detik ...` : "login"
-                                        }}</button>
-                                </div>
-                            </form>
-                        </div>
+            <!-- Login Card -->
+            <div class="col-lg-12">
+                <div class="login-card rounded">
+                    <h2 class="text-center text-black"><i class="fas fa-home"></i></h2>
+                    <h4 class="text-center mb-3">Sistem Administrasi Desa LG</h4>
+                    <div v-if="successMessage" class="alert bg-success text-white">
+                        <i class="fas fa-check-circle"></i> {{ successMessage }}
                     </div>
+
+                    <div v-if="message" class="alert bg-danger alert-dismissable fade show text-white">
+                        <i class="fas fa-exlamation-triangle me-2"></i> {{ message }}
+                    </div>
+                    <form @submit.prevent="submitLogin">
+
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Email</label>
+                            <input type="email" v-model="form.email" class="form-control"
+                                :class="{ 'is-invalid': errors.email }" placeholder="email@gmail.com">
+                            <small class="invalid-feedback">{{ errors.email?.[0] }}</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Password</label>
+                            <input :type="showPassword ? 'text' : 'password'" class="form-control"
+                                v-model="form.password" :class="{ 'is-invalid': errors.password }"
+                                placeholder="Password">
+                            <small class="invalid-feedback">{{ errors.password?.[0] }}</small>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="show mb-3 d-flex gap-2">
+                                <label for="">Show password</label>
+                                <input type="checkbox" v-model="showPassword">
+                            </div>
+                            <div class="forgot-password">
+                                <RouterLink :to="{ name: 'forgot-password' }" class="text-decoration-underline">
+                                    Forgot
+                                    Password</RouterLink>
+                            </div>
+                        </div>
+                        <div class="login-button">
+                            <button type="submit" :disabled="loading || rateLimitSeconds > 0"
+                                class="btn btn-dark w-100"> <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                {{ loading ? "Loading..." :
+                                    rateLimitSeconds > 0 ? `tunggu ${rateLimitSeconds} detik ...` : "login"
+                                }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             <!-- Footer -->
             <div class="text-center footer-text">
@@ -334,11 +333,19 @@ const submitLogin = async () => {
 @media (max-width: 576px) {
 
     .login-page {
-        padding: 15px;
+        min-height: 100vh;
+        background:
+        linear-gradient(rgba(9, 3, 36, 0.92),
+            rgba(9, 3, 36, 0.9)),
+        url("https://images.unsplash.com/photo-1500534623283-312aade485b7") center / cover no-repeat;
     }
 
     .login-body {
-        padding: 25px 20px;
+        padding: 25rem;
+    }
+
+    .login-card {
+        width: 100%;
     }
 }
 </style>
