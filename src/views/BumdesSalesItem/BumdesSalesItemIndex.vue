@@ -66,6 +66,7 @@ const cart = ref([]);
 const showProductModal = ref(false);
 const products = ref([]);
 const loading = ref(false);
+const errors = ref({});
 
 const search = ref('');
 
@@ -898,8 +899,9 @@ onUnmounted(() => {
                         </div>
                         <div class="mb-3">
                             <label class="mb-2">Nama Customer</label>
-                            <input type="text" v-model="customerName" class="form-control mb-2"
+                            <input type="text" v-model="customerName" class="form-control mb-2" :class="{'is-invalid': errors.customerName}"
                                 placeholder="Masukkan Nama Customer">
+                                <small class="text-danger" v-if="errors.customerName">{{ errors.customerName[0] }}</small>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Uang Dibayar</label>

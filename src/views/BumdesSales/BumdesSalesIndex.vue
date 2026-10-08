@@ -203,7 +203,7 @@ onMounted(() => {
                                 <td>{{ item.customer_name }}</td>
                                 <td>{{ item.sale_date }}</td>
                                 <td class="text-center">{{ item.payment_method }}</td>
-                                <td>Rp.{{ formatRupiah(item.total_amount) }}</td>
+                                <td>{{ formatRupiah(item.total_amount) }}</td>
                                 <td>
                                     <span :class="item.status === 'paid' ? 'badge bg-success' : 'badge bg-danger'">{{ item.status }}</span>    
                                 </td>
