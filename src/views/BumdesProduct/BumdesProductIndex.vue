@@ -2,9 +2,7 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import Swal from 'sweetalert2';
 import { deleteBumdesProduct, getBumdesProducts } from '@/services/BumdesProduct';
-import { useAuth } from '@/helpers/auth';
-
-const { isHeadman, isOperator } = useAuth();
+import { getMe } from '@/services/UserService';
 
 const loading = ref(false);
 const errors = ref({});
@@ -13,6 +11,18 @@ const message = ref("");
 const product = ref([]);
 
 const search = ref('');
+
+const user = ref(null);
+
+const fetchUser = async () => {
+    try {
+        const response = await getMe()
+
+        user.value = response.data.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 // pagination
 const currentPage = ref(1);
@@ -120,8 +130,13 @@ const deleteData = async (id) => {
     }
 }
 
+const isOperator = computed(() => {
+    return user.value?.role?.name === 'Operator'
+});
+
 onMounted(() => {
     getData();
+    fetchUser();
 })
 
 </script>
@@ -135,7 +150,7 @@ onMounted(() => {
                     <h5 class="fw-bold">Data Product</h5>
                 </div>
                 <div class="card-tools">
-                    <RouterLink v-if="isHeadman" :to="{ name: 'product-create' }" class="btn text-white" style="background: #2F4F4F;"><i
+                    <RouterLink v-if="isOperator" :to="{ name: 'product-create' }" class="btn text-white" style="background: #2F4F4F;"><i
                             class="fas fa-plus"></i> Tambah Data</RouterLink>
                 </div>
             </div>

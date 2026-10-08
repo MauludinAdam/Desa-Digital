@@ -82,7 +82,7 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-            <div class="mt-2 mx-4">
+            <div class="mt-2 mx-4 col-12">
                 <iframe class="rounded" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4820.047651492853!2d123.06682856008065!3d-8.443275861838446!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dac8299c89a6c8d%3A0xb1654f6cc0c492f5!2sLewogeka%2C%20Kec.%20Solor%20Tim.%2C%20Kabupaten%20Flores%20Timur%2C%20Nusa%20Tenggara%20Tim.!5e1!3m2!1sid!2sid!4v1787911825128!5m2!1sid!2sid" width="900" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
             </div>
         </div>
