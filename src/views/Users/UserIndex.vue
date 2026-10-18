@@ -193,7 +193,6 @@ onMounted(() => {
                             <option :value="50">50</option>
                             <option :value="100">100</option>
                         </select>
-                        <label for="">Entries</label>
                     </div>
                     <div class="searching d-flex align-items-center gap-2">
                         <label for="">Search:</label>

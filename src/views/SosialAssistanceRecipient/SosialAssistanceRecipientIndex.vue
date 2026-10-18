@@ -150,7 +150,6 @@ onMounted(() => {
                             <option :value="50">50</option>
                             <option :value="100">100</option>
                         </select>
-                        <label for="">Entries</label>
                     </div>
                     <div class="searching">
                         <input type="text" v-model="search" class="form-control" placeholder="Search Here...">
