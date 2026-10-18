@@ -130,7 +130,7 @@ const isSearching = computed(() => {
 
 
 <template>
-    <div class="container">
+    <div class="container-fluit">
         <div class="col-lg-12 col-md-12 col-sm-4">
             <div class="card">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -152,10 +152,9 @@ const isSearching = computed(() => {
                                     <option :value="50">50</option>
                                     <option :value="100">100</option>
                                 </select>
-                                <label for="">Entries</label>
                             </div>
                             <div class="searching">
-                                <input type="text" v-model="search" class="form-control" placeholder="Search Here..." style="width: 14rem;">
+                                <input type="text" v-model="search" class="form-control" placeholder="Search Here..." style="">
                             </div>
                         </div>
                     </div>

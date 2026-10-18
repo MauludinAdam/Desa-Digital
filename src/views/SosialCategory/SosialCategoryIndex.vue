@@ -266,8 +266,7 @@ onMounted(() => {
                         <label for="">Entries</label>
                     </div>
                     <div class="searching">
-                        <input type="text" v-model="search" class="form-control" placeholder="Search Here..."
-                            style="width: 15rem;">
+                        <input type="text" v-model="search" class="form-control" placeholder="Search Here...">
                     </div>
                 </div>
                 <div class="table-scroll">
