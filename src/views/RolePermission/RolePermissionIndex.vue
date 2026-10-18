@@ -155,33 +155,35 @@ onMounted(() => {
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="5%">No</th>
-                            <th>Role</th>
-                            <th class="text-center">Guard</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-if="roles.length > 0" v-for="(item, index) in roles" :key="item.id">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ item.name }}</td>
-                            <td class="text-center">{{ item.guard_name }}</td>
-                            <td width="18%">
-                                <RouterLink :to="{name: 'pengaturan-edit', params: {id: item.id}}" class="btn btn-warning btn-sm mx-1"><i class="fas fa-pen-square"></i></RouterLink>
-                                <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr v-else-if="loading">
-                            <td colspan="4" class="text-center py-4">
-                                <p class="spinner-border text-secondary"></p>
-                                <p class="text-muted">Sedang memuat...</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th>Role</th>
+                                <th class="text-center">Guard</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="roles.length > 0" v-for="(item, index) in roles" :key="item.id">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ item.name }}</td>
+                                <td class="text-center">{{ item.guard_name }}</td>
+                                <td width="18%">
+                                    <RouterLink :to="{name: 'pengaturan-edit', params: {id: item.id}}" class="btn btn-warning btn-sm mx-1"><i class="fas fa-pen-square"></i></RouterLink>
+                                    <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr v-else-if="loading">
+                                <td colspan="4" class="text-center py-4">
+                                    <p class="spinner-border text-secondary"></p>
+                                    <p class="text-muted">Sedang memuat...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -216,3 +218,11 @@ onMounted(() => {
         <div v-if="ShowModal" class="modal-backdrop fade show"></div>
     </Transition>
 </template>
+
+<style scoped>
+.table-scroll{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+}
+</style>
