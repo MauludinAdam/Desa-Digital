@@ -222,7 +222,7 @@ onMounted(() => {
 <style scoped>
 .table-scroll{
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
     white-space: nowrap;
 }
 </style>
