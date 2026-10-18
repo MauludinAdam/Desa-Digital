@@ -317,43 +317,45 @@ onMounted(() => {
                         <input type="text" v-model="search" class="form-control" placeholder="Search Here..." style="width: 15rem;">
                     </div>
                 </div>
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="5%">No</th>
-                            <th>Nama</th>
-                            <th>Dokumen</th>
-                            <th class="text-center">File</th>
-                            <th v-if="isAdmin">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-if="citizenAttachmans.length > 0"
-                            v-for="(item, index) in citizenAttachmans" :key="item.id">
-                            <td>{{ (currentPage - 1) * perPage + index + 1 }}</td>
-                            <td>{{ item.citizen?.full_name }}</td>
-                            <td><i class="fas fa-file-pdf"></i> {{ item.document_type }}</td>
-                            <td class="text-center"><a :href="item.file" target="_blank" class="text-decoration-underline">{{ getFileName(item.file) }}</a>
-                            </td>
-                            <td class="d-flex gap-2" v-if="isAdmin">
-                                <button @click="openEditCitizenAttachModal(item)" class="btn btn-warning btn-sm"><i class="fas fa-pen-square"></i></button>
-                                <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr v-else-if="loading">
-                            <td colspan="5" class="text-center">
-                                <p class="spinner-border text-secondary"></p>
-                                <p class="text-center text-muted">Sedang memuat...</p>
-                            </td>
-                        </tr>
-                        <tr v-else>
-                            <td colspan="5" class="text-center py-4">
-                                <p class="text-muted" style="font-size: 2rem;"><i class="fas fa-folder"></i></p>
-                                <p class="text-muted" style="font-size: 1rem;">{{ isSearching ? 'Data tidak ditemukan': 'Data belum ada' }}</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th>Nama</th>
+                                <th>Dokumen</th>
+                                <th class="text-center">File</th>
+                                <th v-if="isAdmin">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="citizenAttachmans.length > 0"
+                                v-for="(item, index) in citizenAttachmans" :key="item.id">
+                                <td>{{ (currentPage - 1) * perPage + index + 1 }}</td>
+                                <td>{{ item.citizen?.full_name }}</td>
+                                <td><i class="fas fa-file-pdf"></i> {{ item.document_type }}</td>
+                                <td class="text-center"><a :href="item.file" target="_blank" class="text-decoration-underline">{{ getFileName(item.file) }}</a>
+                                </td>
+                                <td class="d-flex gap-2" v-if="isAdmin">
+                                    <button @click="openEditCitizenAttachModal(item)" class="btn btn-warning btn-sm"><i class="fas fa-pen-square"></i></button>
+                                    <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr v-else-if="loading">
+                                <td colspan="5" class="text-center">
+                                    <p class="spinner-border text-secondary"></p>
+                                    <p class="text-center text-muted">Sedang memuat...</p>
+                                </td>
+                            </tr>
+                            <tr v-else>
+                                <td colspan="5" class="text-center py-4">
+                                    <p class="text-muted" style="font-size: 2rem;"><i class="fas fa-folder"></i></p>
+                                    <p class="text-muted" style="font-size: 1rem;">{{ isSearching ? 'Data tidak ditemukan': 'Data belum ada' }}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="d-flex justify-content-between mt-2">
                     <div class="page">
                         <span>Halaman {{ currentPage }} dari {{ lastPage }}</span>
@@ -428,3 +430,11 @@ onMounted(() => {
     <div v-if="showModal" class="modal-backdrop fade show"></div>
 </Transition>
 </template>
+
+<style scoped>
+.table-scroll{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+}
+</style>

@@ -257,40 +257,42 @@ onMounted(() => {
                             style="width: 15rem;">
                     </div>
                 </div>
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="5%">No</th>
-                            <th>Nama</th>
-                            <th width="20%">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-if="loading">
-                            <td colspan="3" class="text-center py-4">
-                                <p class="spinner-border text-secondary"></p>
-                                <p class="text-muted">Sedang memuat...</p>
-                            </td>
-                        </tr>
-                        <tr v-else-if="occupations.length === 0 ">
-                            <td colspan="3" class="text-center py-4">
-                                <p class="text-muted"><i class="fas fa-folder fa-3x"></i></p>
-                                <p class="text-muted" style="font-size: 1.2rem;">{{ isSearching ? 'Data tidak ditemuka' : 'Data Masih Kosong!' }}</p>
-                            </td>
-                        </tr>
-                        <tr v-else v-for="(item, index) in occupations" :key="item.id">
-                            <td>{{ (currentPage - 1) * perPage + index + 1 }}</td>
-                            <td>{{ item.name }}</td>
-                            <td>
-                                <button @click="openEditModal(item)" class="btn btn-warning btn-sm mx-1"><i
-                                        class="fas fa-pen-square"></i></button>
-                                <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i
-                                        class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th>Nama</th>
+                                <th width="20%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="loading">
+                                <td colspan="3" class="text-center py-4">
+                                    <p class="spinner-border text-secondary"></p>
+                                    <p class="text-muted">Sedang memuat...</p>
+                                </td>
+                            </tr>
+                            <tr v-else-if="occupations.length === 0 ">
+                                <td colspan="3" class="text-center py-4">
+                                    <p class="text-muted"><i class="fas fa-folder fa-3x"></i></p>
+                                    <p class="text-muted" style="font-size: 1.2rem;">{{ isSearching ? 'Data tidak ditemuka' : 'Data Masih Kosong!' }}</p>
+                                </td>
+                            </tr>
+                            <tr v-else v-for="(item, index) in occupations" :key="item.id">
+                                <td>{{ (currentPage - 1) * perPage + index + 1 }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>
+                                    <button @click="openEditModal(item)" class="btn btn-warning btn-sm mx-1"><i
+                                            class="fas fa-pen-square"></i></button>
+                                    <button @click="deleteData(item.id)" class="btn btn-danger btn-sm"><i
+                                            class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
                 <div class="d-flex align-items-center justify-content-between mt-3">
                     <div class="page">
                         <span>Halaman {{ currentPage }} dari {{ lastPage }}</span>
@@ -351,3 +353,11 @@ onMounted(() => {
         <div v-if="showModal" class="modal-backdrop fade show"></div>
     </Transition>
 </template>
+
+<style scoped>
+.table-scroll{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+}
+</style>

@@ -316,37 +316,39 @@ onMounted(() => {
                     <h5 class="fw-bold">ANGGOTA KELUARGA:</h5>
                     <button @click="openMember" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Data</button>
                 </div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>NIK</th>
-                            <th>Gender</th>
-                            <th>Hubungan</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-if="members.length === 0">
-                            <td colspan="6" class="text-center py-4">
-                                <i class="fas fa-folder-closed"></i>
-                                Belum ada anggota keluarga
-                            </td>
-                        </tr>
-                        <tr v-for="(item, index) in members" :key="item.id">
-                            <td width="5%">{{ index + 1 }}</td>
-                            <td>{{ item.citizen?.full_name }}</td>
-                            <td>{{ item.citizen?.nik }}</td>
-                            <td>{{ item.citizen?.gender === 'male' ? 'Laki-Laki' : 'Perempuan' }}</td>
-                            <td>{{ item.relationship === 'head_of_family' ? 'Kepala Keluarga' : item.relationship === 'wife' ? 'Istri' : item.relationship === 'child' ? 'Anak' : item.relationship === 'parent' ? 'Orang Tua' : item.relationship === 'other' ? 'lain-lain' : '' }}</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-warning btn-sm" @click="editMember(item)"><i class="fas fa-pen-square"></i></button>
-                                <button @click="deleteMember(item.id)" class="btn btn-danger btn-sm mx-1"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>NIK</th>
+                                <th>Gender</th>
+                                <th>Hubungan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="members.length === 0">
+                                <td colspan="6" class="text-center py-4">
+                                    <i class="fas fa-folder-closed"></i>
+                                    Belum ada anggota keluarga
+                                </td>
+                            </tr>
+                            <tr v-for="(item, index) in members" :key="item.id">
+                                <td width="5%">{{ index + 1 }}</td>
+                                <td>{{ item.citizen?.full_name }}</td>
+                                <td>{{ item.citizen?.nik }}</td>
+                                <td>{{ item.citizen?.gender === 'male' ? 'Laki-Laki' : 'Perempuan' }}</td>
+                                <td>{{ item.relationship === 'head_of_family' ? 'Kepala Keluarga' : item.relationship === 'wife' ? 'Istri' : item.relationship === 'child' ? 'Anak' : item.relationship === 'parent' ? 'Orang Tua' : item.relationship === 'other' ? 'lain-lain' : '' }}</td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-warning btn-sm" @click="editMember(item)"><i class="fas fa-pen-square"></i></button>
+                                    <button @click="deleteMember(item.id)" class="btn btn-danger btn-sm mx-1"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
              </div>
             </div>
         </div>
@@ -434,5 +436,10 @@ onMounted(() => {
     opacity: 0;
 }
 
+.table-scroll{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+}
 
 </style>
