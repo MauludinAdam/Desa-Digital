@@ -51,7 +51,7 @@ onMounted(() => {
                   <h4 class="text-danger fw-bold text-decoration-underline">Desa Digital</h4>
                 </div>
                 <div v-if="isOperator">
-                  <h4 class="text-danger fw-bold text-decoration-underline">BUMDES LEWOGEKA</h4>
+                  <h4 class="text-danger fw-bold text-decoration-underline">BUMDES LG</h4>
                 </div>
               </a>
               <div class="nav-toggle">

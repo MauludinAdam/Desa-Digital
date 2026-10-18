@@ -44,7 +44,7 @@ onMounted(() =>{
             <h3 class="text-danger fw-bold" style="text-decoration: underline;">DESA DIGITAL</h3>
         </a>
         <a v-if="isOperator" class="logo text-center text-white" style="font-size: 20px;">
-            <h5 class="text-danger fw-bold" style="text-decoration: underline;">BUMDES LG</h5>
+            <h5 class="text-danger fw-bold" style="text-decoration: underline;">BUMDES LEWOGEKA</h5>
         </a>
         <div class="nav-toggle">
             <button class="btn btn-toggle toggle-sidebar">
