@@ -1,8 +1,37 @@
-<script setup lang="ts">
+<script setup>
 import Footer from '@/components/Footer.vue';
 import Navbar from '@/components/Navbar.vue';
 import Sidebar from '@/components/sidebar.vue';
+import { getMe } from '@/services/UserService';
+import { ref, computed, onMounted } from 'vue';
 
+const user = ref(null);
+
+const userData = localStorage.getItem('user')
+if(userData){
+  user.value = JSON.parse(userData)
+}
+
+const fetchUser = async () => {
+  try {
+    const response = await getMe();
+
+    user.value = response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+const isAdmin = computed(() => {
+  return user.value?.role?.name === 'Admin'; 
+});
+
+const isOperator = computed(() => {
+  return user.value?.role?.name === 'Operator';
+});
+
+onMounted(() => {
+  fetchUser();
+})
 </script>
 
 <template>
@@ -18,12 +47,12 @@ import Sidebar from '@/components/sidebar.vue';
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
               <a href="index.html" class="logo">
-                <img
-                  src="/assets/img/kaiadmin/logo_light.svg"
-                  alt="navbar brand"
-                  class="navbar-brand"
-                  height="20"
-                />
+                <div v-if="isAdmin">
+                  <h4 class="text-danger fw-bold text-decoration-underline">Desa Digital</h4>
+                </div>
+                <div v-if="isOperator">
+                  <h4 class="text-danger fw-bold text-decoration-underline">BUMDES LEWOGEKA</h4>
+                </div>
               </a>
               <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">

@@ -39,7 +39,6 @@ const logout = async () => {
                 <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic rounded" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                         <div class="avatar-sm mx-2 mb-3" style="font-size: 2.7rem;">
-                            <!-- <img src="/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle" /> -->
                              <i class="fas fa-user ml-3 text-secondary"></i>
                         </div>
                         <span class="profile-username">
@@ -52,7 +51,6 @@ const logout = async () => {
                             <li>
                                 <div class="user-box">
                                     <div class="avatar-lg">
-                                        
                                             <i class="fas fa-user fa-3x text-secondary"></i>
                                     </div>
                                     <div class="u-text">
